@@ -1,0 +1,185 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@theme inline {
+    /* Colores de marca, tomados del logo de akiMAT */
+    --color-brand-primary: #0099d6;
+    --color-brand-primary-foreground: #031620;
+    --color-brand-primary-hover: #1aa9e3;
+    --color-brand-ink: #111016;
+
+    /* Escala de fondos oscuros con un toque azulado (agua / frío) */
+    --color-ink-950: #04080c;
+    --color-ink-900: #08111a;
+    --color-ink-850: #0b1620;
+    --color-ink-800: #0f1c27;
+    --color-ink-700: #172a38;
+    --color-ink-600: #22394a;
+
+    --font-heading: var(--font-display);
+    --font-sans: var(--font-sans);
+    --color-sidebar-ring: var(--sidebar-ring);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar: var(--sidebar);
+    --color-chart-5: var(--chart-5);
+    --color-chart-4: var(--chart-4);
+    --color-chart-3: var(--chart-3);
+    --color-chart-2: var(--chart-2);
+    --color-chart-1: var(--chart-1);
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+    --radius-sm: calc(var(--radius) * 0.6);
+    --radius-md: calc(var(--radius) * 0.8);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) * 1.4);
+    --radius-2xl: calc(var(--radius) * 1.8);
+    --radius-3xl: calc(var(--radius) * 2.2);
+    --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+    --brand-primary: #0099d6;
+    --background: #04080c;
+    --foreground: oklch(0.985 0 0);
+    --card: #0b1620;
+    --card-foreground: oklch(0.985 0 0);
+    --popover: #0b1620;
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.922 0 0);
+    --primary-foreground: oklch(0.205 0 0);
+    --secondary: #172a38;
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: #172a38;
+    --muted-foreground: oklch(0.72 0.015 240);
+    --accent: #172a38;
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: #0099d6;
+    --chart-1: oklch(0.87 0 0);
+    --chart-2: oklch(0.556 0 0);
+    --chart-3: oklch(0.439 0 0);
+    --chart-4: oklch(0.371 0 0);
+    --chart-5: oklch(0.269 0 0);
+    --radius: 0.45rem;
+    --sidebar: #0b1620;
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.922 0 0);
+    --sidebar-primary-foreground: oklch(0.205 0 0);
+    --sidebar-accent: #172a38;
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: #0099d6;
+}
+
+/* ── Ilustraciones animadas (aire, llama y gota) ── */
+
+@keyframes airflow {
+  0% { stroke-dashoffset: 0; opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { stroke-dashoffset: -64; opacity: 0; }
+}
+
+@keyframes flame {
+  0%, 100% { transform: scale(1, 1); }
+  30% { transform: scale(0.96, 1.07); }
+  60% { transform: scale(1.04, 0.95); }
+}
+
+@keyframes drip {
+  0% { transform: translateY(0) scale(0.4); opacity: 0; }
+  20% { transform: translateY(0) scale(1); opacity: 1; }
+  70% { opacity: 1; }
+  100% { transform: translateY(46px) scale(1); opacity: 0; }
+}
+
+@keyframes ripple {
+  0% { transform: scale(0.2); opacity: 0.9; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.55; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+
+.animate-airflow {
+  stroke-dasharray: 18 46;
+  animation: airflow 2.6s linear infinite;
+}
+
+.animate-flame {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: flame 1.6s ease-in-out infinite;
+}
+
+.animate-drip {
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation: drip 2.4s cubic-bezier(0.55, 0, 0.75, 0.4) infinite;
+}
+
+.animate-ripple {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: ripple 2.4s ease-out infinite;
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2.4s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-airflow,
+  .animate-flame,
+  .animate-drip,
+  .animate-ripple,
+  .animate-pulse-ring {
+    animation: none;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    }
+  body {
+    @apply bg-background text-foreground;
+    }
+  button:not(:disabled), [role="button"]:not(:disabled) {
+    cursor: pointer;
+    }
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+    }
+  ::selection {
+    background: color-mix(in srgb, var(--brand-primary) 55%, transparent);
+    color: #fff;
+    }
+}
