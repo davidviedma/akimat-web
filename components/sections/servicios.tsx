@@ -99,7 +99,7 @@ export function Servicios() {
                     <span className="flex size-11 items-center justify-center rounded-xl bg-brand-primary/10 text-brand-primary">
                       <HugeiconsIcon icon={service.icon} size={22} />
                     </span>
-                    <h3 className="font-heading text-xl font-semibold text-white xl:text-2xl">
+                    <h3 className="font-heading text-xl font-semibold text-white">
                       {service.name}
                     </h3>
                   </div>
