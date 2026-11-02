@@ -28,6 +28,7 @@ export function Trabajos() {
           textColor="#111016"
           borderRadius={0.06}
           itemAspect={0.8}
+          font="600 22px Sora"
           showTitles={false}
           autoScroll={0.08}
           scrollSpeed={1.6}
