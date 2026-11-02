@@ -38,7 +38,7 @@ export function Hero() {
       />
 
       <div className="relative z-10 container-x flex flex-col gap-8 pt-40 pb-12 md:pb-16">
-        <p className="text-sm font-semibold tracking-widest text-white/75 uppercase">
+        <p className="text-xs font-semibold tracking-widest text-white/75 uppercase sm:text-sm">
           Desde {business.founded} · Mutilva · Pamplona y comarca
         </p>
         <BlurText
@@ -60,7 +60,7 @@ export function Hero() {
               Pedir presupuesto
             </a>
           </Button>
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+          <div className="flex flex-col gap-2 pr-20 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6 sm:pr-0">
             {[business.phone, business.mobile].map((phone) => (
               <a
                 key={phone.href}
