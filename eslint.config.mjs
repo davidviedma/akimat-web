@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     files: ["components/reactbits/**"],
     rules: {
       "react-hooks/refs": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "react-hooks/exhaustive-deps": "off",
       "@next/next/no-img-element": "off",
     },
   },

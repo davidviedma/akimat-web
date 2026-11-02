@@ -10,26 +10,28 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 const sora = Sora({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["500", "600", "700", "800"],
+  weight: ["500", "600", "700"],
 })
 
 const title =
-  "akiMAT – Fontanería, aire acondicionado y calderas de gas en Zizur Mayor"
+  "akiMAT – Fontanería, calderas, aerotermia y aire acondicionado en Pamplona"
 const description =
-  "Fontanería, instalación de aire acondicionado y calderas de gas en Zizur Mayor, Pamplona y comarca. Instalación, reparación y mantenimiento. Llama al 948 18 68 01."
+  "Fontanería, instalación de calderas, aerotermia y aire acondicionado en Pamplona y comarca. Desde 2006 en Mutilva. Llama al 948 186 801 o al 629 333 811."
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title,
   description,
   keywords: [
-    "fontanero Zizur Mayor",
-    "fontanería Pamplona",
+    "fontanero Pamplona",
+    "fontanería Mutilva",
+    "instalación aerotermia Pamplona",
+    "aerotermia Navarra",
     "instalación aire acondicionado Pamplona",
-    "aire acondicionado Zizur Mayor",
-    "calderas de gas Navarra",
     "cambio de caldera Pamplona",
-    "reparación caldera Zizur Mayor",
+    "calderas Sime Navarra",
+    "calderas Kosner",
+    "suelo radiante Pamplona",
     "akiMAT",
   ],
   alternates: { canonical: "/" },
@@ -45,7 +47,7 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "akiMAT – Fontanería, aire acondicionado y calderas de gas en Navarra",
+        alt: "akiMAT – Fontanería, calderas, aerotermia y aire acondicionado en Pamplona",
       },
     ],
   },
@@ -58,7 +60,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#04080c",
+  themeColor: "#ffffff",
 }
 
 const localBusinessSchema = {
@@ -68,8 +70,9 @@ const localBusinessSchema = {
   name: `${business.name} – ${business.legalName}`,
   description,
   url: SITE_URL,
+  foundingDate: String(business.founded),
   telephone: business.phone.href.replace("tel:", ""),
-  ...(business.email ? { email: business.email } : {}),
+  email: business.email,
   address: {
     "@type": "PostalAddress",
     streetAddress: business.address.street,
@@ -79,8 +82,8 @@ const localBusinessSchema = {
     addressCountry: "ES",
   },
   areaServed: [
-    { "@type": "City", name: "Zizur Mayor" },
     { "@type": "City", name: "Pamplona" },
+    { "@type": "City", name: "Mutilva" },
     { "@type": "AdministrativeArea", name: "Navarra" },
   ],
   openingHoursSpecification: business.openingHoursSchema,

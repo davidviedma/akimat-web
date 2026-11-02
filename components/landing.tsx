@@ -1,30 +1,139 @@
+import Image from "next/image"
 import Link from "next/link"
-import type { ComponentType, ReactNode } from "react"
+import type { ReactNode } from "react"
 import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react"
 import {
   ArrowRight01Icon,
   Call02Icon,
   CheckmarkCircle02Icon,
 } from "@hugeicons/core-free-icons"
-import { DotGlow } from "@/components/dot-glow"
-import { steps as defaultSteps } from "@/components/sections/proceso"
-import SpotlightCard from "@/components/reactbits/SpotlightCard"
+import BlurText from "@/components/reactbits/BlurText"
+import { Reveal } from "@/components/reveal"
 import { Button } from "@/components/ui/button"
 import { WhatsAppIcon } from "@/components/whatsapp-button"
-import { SITE_URL, business, services } from "@/lib/site"
+import { SITE_URL, business, services, type Photo } from "@/lib/site"
 import { cn } from "@/lib/utils"
 
 export type Faq = { question: string; answer: string }
 export type Feature = { icon: IconSvgElement; title: string; text: string }
 
+/* ── Cabecera de página de servicio: foto a sangre y un titular ── */
+
+export function ServiceHero({
+  label,
+  title,
+  subtitle,
+  photo,
+  art,
+  whatsapp,
+  checks,
+}: {
+  label: string
+  title: string
+  subtitle: string
+  photo?: { src: string; alt: string; position?: string }
+  /** Ilustración para cuando todavía no hay foto */
+  art?: ReactNode
+  whatsapp: string
+  checks: string[]
+}) {
+  return (
+    <section className="relative isolate flex min-h-[78svh] flex-col justify-end overflow-hidden bg-ink text-white">
+      {photo ? (
+        <Image
+          src={photo.src}
+          alt={photo.alt}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+          style={{ objectPosition: photo.position ?? "50% 50%" }}
+        />
+      ) : (
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[radial-gradient(80%_70%_at_75%_40%,rgba(0,153,214,0.35),transparent_65%)]"
+        />
+      )}
+      {art && (
+        <div className="pointer-events-none absolute inset-x-0 top-24 flex justify-center md:top-1/2 md:right-[8%] md:left-auto md:w-[42%] md:-translate-y-1/2">
+          {art}
+        </div>
+      )}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/40 to-ink/15"
+      />
+
+      <div className="relative z-10 container-x flex flex-col gap-6 pt-44 pb-12 md:pb-16">
+        <nav
+          aria-label="Ruta de navegación"
+          className="flex items-center gap-2 text-sm text-white/70"
+        >
+          <Link href="/" className="transition-colors hover:text-white">
+            Inicio
+          </Link>
+          <span aria-hidden>/</span>
+          <span className="text-white">{label}</span>
+        </nav>
+        <BlurText
+          as="h1"
+          text={title}
+          animateBy="words"
+          direction="bottom"
+          delay={70}
+          className="max-w-4xl font-heading text-4xl leading-[1.05] font-bold tracking-tight sm:text-5xl lg:text-6xl"
+        />
+        <p className="max-w-xl text-lg text-white/80">{subtitle}</p>
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-6">
+          <Button asChild variant="light" size="xl">
+            <a href={whatsapp} target="_blank" rel="noopener noreferrer">
+              <WhatsAppIcon className="size-5" />
+              Pedir presupuesto
+            </a>
+          </Button>
+          <a
+            href={business.phone.href}
+            className="inline-flex items-center gap-2 text-lg font-semibold tabular-nums transition-opacity hover:opacity-80"
+          >
+            <HugeiconsIcon
+              icon={Call02Icon}
+              size={19}
+              className="text-brand-primary"
+            />
+            {business.phone.display}
+          </a>
+        </div>
+        <ul className="flex flex-wrap gap-x-6 gap-y-2">
+          {checks.map((check) => (
+            <li
+              key={check}
+              className="flex items-center gap-2 text-sm text-white/85"
+            >
+              <HugeiconsIcon
+                icon={CheckmarkCircle02Icon}
+                size={17}
+                className="text-brand-primary"
+              />
+              {check}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}
+
+/* ── Bloques ── */
+
 export function Section({
   children,
-  tone = "dark",
+  tone = "white",
   className,
   id,
 }: {
   children: ReactNode
-  tone?: "dark" | "darker"
+  tone?: "white" | "soft" | "ink"
   className?: string
   id?: string
 }) {
@@ -32,14 +141,14 @@ export function Section({
     <section
       id={id}
       className={cn(
-        tone === "dark" ? "bg-ink-900" : "bg-ink-950",
-        "py-16 lg:py-24",
+        tone === "white" && "bg-white",
+        tone === "soft" && "bg-paper-2",
+        tone === "ink" && "bg-ink text-white",
+        "py-16 md:py-24",
         className
       )}
     >
-      <div className="container mx-auto px-6 sm:px-12 lg:px-16 xl:px-24">
-        {children}
-      </div>
+      <div className="container-x">{children}</div>
     </section>
   )
 }
@@ -47,164 +156,28 @@ export function Section({
 export function SectionHeading({
   label,
   title,
-  highlight,
   intro,
-  end = ".",
 }: {
   label: string
   title: string
-  highlight: string
   intro?: ReactNode
-  /** Signo final del título ("." por defecto, "?" en preguntas). */
-  end?: string
 }) {
   return (
-    <div className="mb-12 flex max-w-2xl flex-col gap-3">
-      <p className="text-sm font-semibold tracking-widest text-brand-primary uppercase">
+    <Reveal className="mb-10 flex max-w-2xl flex-col gap-3 md:mb-12">
+      <p className="text-sm font-semibold tracking-widest text-brand-text uppercase">
         {label}
       </p>
-      <h2 className="font-heading text-4xl leading-tight font-bold tracking-tight text-white md:text-5xl">
-        {title} <span className="text-brand-primary">{highlight}</span>
-        {end}
+      <h2 className="font-heading text-4xl leading-tight font-bold tracking-tight md:text-5xl">
+        {title}
       </h2>
-      {intro && <p className="leading-relaxed text-zinc-400">{intro}</p>}
-    </div>
-  )
-}
-
-function CtaButtons({
-  whatsapp,
-  light = false,
-}: {
-  whatsapp: { label: string; href: string }
-  light?: boolean
-}) {
-  return (
-    <div className="flex flex-wrap gap-3">
-      <Button asChild size="xl">
-        <a href={whatsapp.href} target="_blank" rel="noopener noreferrer">
-          <WhatsAppIcon className="size-5" />
-          {whatsapp.label}
-        </a>
-      </Button>
-      <Button
-        asChild
-        size="xl"
-        variant={light ? "default" : "secondary"}
-        className={light ? "bg-ink-950 text-white hover:bg-ink-900" : undefined}
-      >
-        <a href={business.phone.href}>
-          <HugeiconsIcon icon={Call02Icon} size={20} />
-          {business.phone.display}
-        </a>
-      </Button>
-    </div>
-  )
-}
-
-export function LandingHero({
-  label,
-  title,
-  highlight,
-  subtitle,
-  whatsapp,
-  checks,
-  Art,
-  artClass,
-  badge,
-}: {
-  label: string
-  title: string
-  highlight: string
-  subtitle: string
-  whatsapp: { label: string; href: string }
-  checks: string[]
-  Art: ComponentType<{ className?: string }>
-  artClass?: string
-  badge?: { title: string; text: string }
-}) {
-  return (
-    <DotGlow className="bg-ink-950">
-      <div className="relative container mx-auto grid grid-cols-1 items-center gap-12 px-6 pt-32 pb-16 sm:px-12 lg:grid-cols-2 lg:px-16 lg:pt-40 lg:pb-24 xl:px-24">
-        <div className="flex flex-col gap-6">
-          <nav
-            aria-label="Ruta de navegación"
-            className="flex items-center gap-2 text-sm text-zinc-500"
-          >
-            <Link
-              href="/"
-              className="transition-colors duration-200 hover:text-zinc-300"
-            >
-              Inicio
-            </Link>
-            <span aria-hidden>/</span>
-            <span className="text-zinc-300">{label}</span>
-          </nav>
-          <h1 className="font-heading text-4xl leading-[1.08] font-bold tracking-tight text-white md:text-5xl xl:text-[3.6rem]">
-            {title} <span className="text-brand-primary">{highlight}</span>
-          </h1>
-          <p className="max-w-xl text-lg leading-relaxed text-zinc-400">
-            {subtitle}
-          </p>
-          <CtaButtons whatsapp={whatsapp} />
-          <ul className="flex flex-wrap gap-x-6 gap-y-2">
-            {checks.map((check) => (
-              <li
-                key={check}
-                className="flex items-center gap-2 text-sm text-zinc-300"
-              >
-                <HugeiconsIcon
-                  icon={CheckmarkCircle02Icon}
-                  size={18}
-                  className="text-brand-primary"
-                />
-                {check}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-[2rem] border border-white/10 bg-ink-900 bg-[radial-gradient(circle_at_50%_55%,rgba(0,153,214,0.28),transparent_62%)] lg:aspect-auto lg:h-[520px]">
-          <Art className={cn("w-[70%]", artClass)} />
-          {badge && (
-            <div className="absolute right-4 bottom-4 left-4 rounded-2xl border border-white/10 bg-ink-950/85 px-5 py-4 backdrop-blur sm:right-auto">
-              <p className="font-bold text-white">{badge.title}</p>
-              <p className="text-sm text-zinc-400">{badge.text}</p>
-            </div>
-          )}
-        </div>
-      </div>
-    </DotGlow>
-  )
-}
-
-const trustStats = [
-  { value: "Zizur Mayor", label: "a un paso de Pamplona" },
-  { value: "3 en 1", label: "fontanería, clima y calefacción" },
-  { value: "Sin compromiso", label: "presupuesto claro antes de empezar" },
-  { value: "Desde las 8:00", label: "de lunes a viernes" },
-]
-
-export function TrustBar() {
-  return (
-    <section className="border-y border-white/5 bg-ink-900">
-      <div className="container mx-auto grid grid-cols-2 gap-6 px-6 py-8 sm:px-12 lg:grid-cols-4 lg:px-16 xl:px-24">
-        {trustStats.map(({ value, label }) => (
-          <div key={label} className="flex flex-col gap-1">
-            <p className="font-heading text-xl font-bold text-white md:text-2xl">
-              {value}
-            </p>
-            <p className="text-sm text-zinc-400">{label}</p>
-          </div>
-        ))}
-      </div>
-    </section>
+      {intro && <p className="text-ink-soft">{intro}</p>}
+    </Reveal>
   )
 }
 
 export function FeatureGrid({
   items,
-  columns = 3,
+  columns = 4,
 }: {
   items: Feature[]
   columns?: 2 | 3 | 4
@@ -217,50 +190,75 @@ export function FeatureGrid({
         columns === 4 && "lg:grid-cols-4"
       )}
     >
-      {items.map(({ icon, title, text }) => (
-        <SpotlightCard
-          key={title}
-          spotlightColor="#0099d6"
-          intensity={0.2}
-          borderGlow={0.8}
-          className="flex flex-col gap-4 p-6!"
-          style={
-            { "--spotlight-card-surface": "#08111a" } as React.CSSProperties
-          }
-        >
-          <span className="flex size-12 items-center justify-center rounded-xl bg-brand-primary/10 text-brand-primary">
-            <HugeiconsIcon icon={icon} size={24} />
-          </span>
-          <h3 className="font-heading text-lg font-semibold text-white">
-            {title}
-          </h3>
-          <p className="text-sm leading-relaxed text-zinc-400">{text}</p>
-        </SpotlightCard>
+      {items.map(({ icon, title, text }, i) => (
+        <Reveal key={title} delay={i * 0.06}>
+          <div className="flex h-full flex-col gap-4 rounded-3xl border border-line bg-white p-6">
+            <span className="flex size-11 items-center justify-center rounded-full bg-brand-primary/10 text-brand-text">
+              <HugeiconsIcon icon={icon} size={22} />
+            </span>
+            <h3 className="font-heading text-lg font-semibold text-ink">
+              {title}
+            </h3>
+            <p className="text-sm leading-relaxed text-ink-soft">{text}</p>
+          </div>
+        </Reveal>
       ))}
     </div>
   )
 }
 
-export function Steps({
-  steps = defaultSteps,
-}: {
-  steps?: { title: string; text: string }[]
-}) {
+/** Fotos de la página: una grande y el resto en una fila. */
+export function PhotoStrip({ photos }: { photos: Photo[] }) {
+  if (!photos.length) return null
+  // Con tres fotos o más, la primera ocupa dos filas; con menos, todas iguales.
+  const big = photos.length >= 3
   return (
-    <ol className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-      {steps.map(({ title, text }, i) => (
-        <li
-          key={title}
-          className="relative flex flex-col gap-3 rounded-3xl border border-white/8 bg-ink-900 p-6"
+    <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+      {photos.slice(0, 4).map((photo, i) => (
+        <Reveal
+          key={photo.src}
+          delay={i * 0.06}
+          className={cn(
+            "relative overflow-hidden rounded-3xl bg-paper-2",
+            i === 0 &&
+              big &&
+              "col-span-2 aspect-[4/3] md:row-span-2 md:aspect-auto",
+            i === 0 && !big && "col-span-2 aspect-[4/3]",
+            i > 0 && "aspect-square"
+          )}
         >
-          <span className="font-heading text-5xl leading-none font-bold text-brand-primary">
-            {String(i + 1).padStart(2, "0")}
-          </span>
-          <h3 className="font-heading text-lg font-semibold text-white">
-            {title}
-          </h3>
-          <p className="text-sm leading-relaxed text-zinc-400">{text}</p>
-        </li>
+          <Image
+            src={photo.src}
+            alt={photo.alt}
+            fill
+            sizes={
+              i === 0
+                ? "(max-width: 768px) 100vw, 50vw"
+                : "(max-width: 768px) 50vw, 25vw"
+            }
+            className="object-cover transition-transform duration-700 hover:scale-105"
+          />
+        </Reveal>
+      ))}
+    </div>
+  )
+}
+
+export function Steps({ steps }: { steps: { title: string; text: string }[] }) {
+  return (
+    <ol className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      {steps.map(({ title, text }, i) => (
+        <Reveal key={title} delay={i * 0.08}>
+          <li className="flex h-full flex-col gap-3 rounded-3xl bg-paper-2 p-6">
+            <span className="font-heading text-4xl font-bold text-brand-primary">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <h3 className="font-heading text-lg font-semibold text-ink">
+              {title}
+            </h3>
+            <p className="text-sm leading-relaxed text-ink-soft">{text}</p>
+          </li>
+        </Reveal>
       ))}
     </ol>
   )
@@ -280,25 +278,23 @@ export function Callout({
   return (
     <div
       className={cn(
-        "flex flex-col gap-4 rounded-3xl border p-6 sm:flex-row sm:items-start",
-        tone === "brand"
-          ? "border-brand-primary/40 bg-brand-primary/10"
-          : "border-amber-400/40 bg-amber-400/10"
+        "flex flex-col gap-4 rounded-3xl p-6 sm:flex-row sm:items-start",
+        tone === "brand" ? "bg-brand-primary/10" : "bg-amber-50"
       )}
     >
       <span
         className={cn(
-          "flex size-12 shrink-0 items-center justify-center rounded-xl",
-          tone === "brand"
-            ? "bg-brand-primary text-brand-primary-foreground"
-            : "bg-amber-400 text-ink-950"
+          "flex size-11 shrink-0 items-center justify-center rounded-full text-white",
+          tone === "brand" ? "bg-brand-primary" : "bg-amber-500"
         )}
       >
-        <HugeiconsIcon icon={icon} size={24} />
+        <HugeiconsIcon icon={icon} size={22} />
       </span>
       <div className="flex flex-col gap-1">
-        <p className="font-heading text-lg font-semibold text-white">{title}</p>
-        <div className="leading-relaxed text-zinc-300">{children}</div>
+        <p className="font-heading text-lg font-semibold text-ink">{title}</p>
+        <div className="text-[15px] leading-relaxed text-ink-soft">
+          {children}
+        </div>
       </div>
     </div>
   )
@@ -310,17 +306,17 @@ export function FaqList({ faqs }: { faqs: Faq[] }) {
       {faqs.map(({ question, answer }) => (
         <details
           key={question}
-          className="group rounded-2xl border border-white/8 bg-ink-950 open:border-white/15"
+          className="group rounded-2xl border border-line bg-white open:border-ink/30"
         >
           <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 [&::-webkit-details-marker]:hidden">
-            <span className="text-base font-semibold text-white md:text-lg">
+            <span className="font-semibold text-ink md:text-lg">
               {question}
             </span>
-            <span className="shrink-0 text-2xl leading-none font-light text-white transition-transform duration-200 group-open:rotate-45">
+            <span className="shrink-0 text-2xl leading-none font-light text-ink transition-transform duration-200 group-open:rotate-45">
               +
             </span>
           </summary>
-          <p className="px-6 pb-6 leading-relaxed text-zinc-400">{answer}</p>
+          <p className="px-6 pb-6 leading-relaxed text-ink-soft">{answer}</p>
         </details>
       ))}
     </div>
@@ -329,13 +325,11 @@ export function FaqList({ faqs }: { faqs: Faq[] }) {
 
 export function FinalCta({
   title,
-  text,
   whatsapp,
   currentSlug,
 }: {
   title: string
-  text: string
-  whatsapp: { label: string; href: string }
+  whatsapp: string
   currentSlug: string
 }) {
   const otherServices = services.filter(
@@ -343,47 +337,45 @@ export function FinalCta({
   )
 
   return (
-    <Section tone="dark">
-      <div className="flex flex-col gap-6 rounded-[2rem] bg-brand-primary px-8 py-12 md:px-16 md:py-16">
-        <h2 className="max-w-3xl font-heading text-3xl leading-tight font-bold tracking-tight text-brand-primary-foreground md:text-5xl">
+    <Section tone="ink">
+      <Reveal className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+        <h2 className="max-w-2xl font-heading text-4xl leading-[1.05] font-bold tracking-tight md:text-6xl">
           {title}
         </h2>
-        <p className="max-w-2xl text-lg leading-relaxed text-brand-primary-foreground/85">
-          {text}
-        </p>
-        <CtaButtons whatsapp={whatsapp} light />
-      </div>
-
-      <div className="mt-16 flex flex-col gap-6">
-        <p className="text-sm font-semibold tracking-widest text-brand-primary uppercase">
-          Otros servicios
-        </p>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          {otherServices.map(({ slug, name, summary, icon }) => (
-            <Link
-              key={slug}
-              href={`/${slug}`}
-              className="group flex items-start gap-4 rounded-3xl border border-white/8 bg-ink-950 p-6 transition-colors duration-300 hover:border-brand-primary"
-            >
-              <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-brand-primary/10 text-brand-primary">
-                <HugeiconsIcon icon={icon} size={24} />
-              </span>
-              <span className="flex flex-col gap-1">
-                <span className="inline-flex items-center gap-1 font-heading text-lg font-semibold text-white transition-colors duration-300 group-hover:text-brand-primary">
-                  {name}
-                  <HugeiconsIcon
-                    icon={ArrowRight01Icon}
-                    size={18}
-                    className="transition-transform group-hover:translate-x-1"
-                  />
-                </span>
-                <span className="text-sm leading-relaxed text-zinc-400">
-                  {summary}
-                </span>
-              </span>
-            </Link>
-          ))}
+        <div className="flex flex-wrap gap-3">
+          <Button asChild variant="light" size="xl">
+            <a href={whatsapp} target="_blank" rel="noopener noreferrer">
+              <WhatsAppIcon className="size-5" />
+              WhatsApp
+            </a>
+          </Button>
+          <Button asChild variant="secondary" size="xl">
+            <a href={business.phone.href}>
+              <HugeiconsIcon icon={Call02Icon} size={20} />
+              {business.phone.display}
+            </a>
+          </Button>
         </div>
+      </Reveal>
+
+      <div className="mt-14 grid grid-cols-1 gap-3 border-t border-white/10 pt-8 sm:grid-cols-3">
+        {otherServices.map(({ slug, name, icon }) => (
+          <Link
+            key={slug}
+            href={`/${slug}`}
+            className="group flex items-center gap-3 rounded-2xl p-3 transition-colors hover:bg-white/5"
+          >
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-brand-primary">
+              <HugeiconsIcon icon={icon} size={19} />
+            </span>
+            <span className="flex-1 font-semibold">{name}</span>
+            <HugeiconsIcon
+              icon={ArrowRight01Icon}
+              size={18}
+              className="text-white/50 transition-transform group-hover:translate-x-1"
+            />
+          </Link>
+        ))}
       </div>
     </Section>
   )
@@ -413,7 +405,6 @@ export function ServiceJsonLd({
         url,
         provider: { "@id": `${SITE_URL}/#business` },
         areaServed: [
-          { "@type": "City", name: "Zizur Mayor" },
           { "@type": "City", name: "Pamplona" },
           { "@type": "AdministrativeArea", name: "Navarra" },
         ],

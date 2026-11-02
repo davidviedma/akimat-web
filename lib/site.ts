@@ -1,13 +1,18 @@
 import type { Metadata } from "next"
 import type { IconSvgElement } from "@hugeicons/react"
-import { AirVentIcon, DropletIcon, FireIcon } from "@hugeicons/core-free-icons"
+import {
+  AirVentIcon,
+  DropletIcon,
+  FireIcon,
+  Leaf01Icon,
+} from "@hugeicons/core-free-icons"
 
 /**
  * Datos de la empresa. Es la única fuente de verdad para teléfonos,
- * dirección, horario, etc.: cambia aquí y se actualiza toda la web.
+ * dirección, horario, servicios, etc.: cambia aquí y se actualiza toda la web.
  *
- * Los datos salen de directorios públicos de empresas (registro mercantil,
- * Páginas Amarillas, QDQ…). Antes de publicar, confírmalos con akiMAT,
+ * Los datos salen del rótulo de la nave, de la rotulación de las furgonetas
+ * y de directorios públicos. Antes de publicar, confírmalos con akiMAT,
  * sobre todo los marcados con TODO.
  */
 
@@ -20,21 +25,21 @@ export const business = {
   cif: "B71399406",
   // TODO: completar con los datos de inscripción (tomo, folio y hoja).
   registry: "Inscrita en el Registro Mercantil de Navarra",
+  founded: 2006,
   tagline: "Servicios integrales",
-  phone: { display: "948 18 68 01", href: "tel:+34948186801" },
-  mobile: { display: "629 33 38 11", href: "tel:+34629333811" },
+  phone: { display: "948 186 801", href: "tel:+34948186801" },
+  mobile: { display: "629 333 811", href: "tel:+34629333811" },
   // TODO: confirmar que el móvil tiene WhatsApp.
   whatsapp: "34629333811",
-  // TODO: añadir el email de contacto (se muestra solo si está relleno).
-  email: "",
+  email: "akimatserviciosintegrales@gmail.com",
   address: {
-    street: "C/ Paternain, 7 bajo",
-    postalCode: "31180",
-    city: "Zizur Mayor",
+    street: "Polígono Industrial Mutilva, calle O, nave 22",
+    postalCode: "31192",
+    city: "Mutilva",
     region: "Navarra",
   },
   mapsUrl:
-    "https://www.google.com/maps/search/?api=1&query=Akimat+Servicios+Integrales+Calle+Paternain+7+31180+Zizur+Mayor",
+    "https://www.google.com/maps/search/?api=1&query=Akimat+Servicios+Integrales+Pol%C3%ADgono+Mutilva+calle+O+22+31192+Mutilva",
   hours: [
     { days: "Lunes a jueves", time: "8:00 – 18:30" },
     { days: "Viernes", time: "8:00 – 14:00" },
@@ -65,24 +70,24 @@ export function whatsappLink(message?: string) {
   return message ? `${base}?text=${encodeURIComponent(message)}` : base
 }
 
-/** Localidades que se muestran en el mapa de zona de servicio. */
+/** Localidades donde trabajan habitualmente (se listan en el pie). */
 export const serviceArea = {
-  base: { name: "Zizur Mayor", lat: 42.787, lng: -1.691 },
+  base: "Mutilva",
+  summary: "Pamplona y comarca",
   towns: [
-    { name: "Pamplona", lat: 42.8125, lng: -1.6458 },
-    { name: "Barañáin", lat: 42.806, lng: -1.677 },
-    { name: "Cizur Menor", lat: 42.789, lng: -1.676 },
-    { name: "Orkoien", lat: 42.823, lng: -1.706 },
-    { name: "Berriozar", lat: 42.836, lng: -1.669 },
-    { name: "Ansoáin", lat: 42.831, lng: -1.64 },
-    { name: "Burlada", lat: 42.826, lng: -1.616 },
-    { name: "Villava", lat: 42.833, lng: -1.611 },
-    { name: "Huarte", lat: 42.83, lng: -1.593 },
-    { name: "Mutilva", lat: 42.7893, lng: -1.6209 },
-    { name: "Sarriguren", lat: 42.811, lng: -1.598 },
-    { name: "Noáin", lat: 42.758, lng: -1.632 },
-    { name: "Beriáin", lat: 42.733, lng: -1.64 },
-    { name: "Etxauri", lat: 42.795, lng: -1.791 },
+    "Pamplona",
+    "Mutilva",
+    "Sarriguren",
+    "Burlada",
+    "Villava",
+    "Huarte",
+    "Noáin",
+    "Zizur Mayor",
+    "Cizur",
+    "Barañáin",
+    "Orkoien",
+    "Berriozar",
+    "Ansoáin",
   ],
 }
 
@@ -90,8 +95,10 @@ export type Service = {
   slug: string
   name: string
   short: string
+  /** Una frase. La web es minimalista: aquí no van párrafos. */
   summary: string
   icon: IconSvgElement
+  photo: { src: string; alt: string }
 }
 
 export const services: Service[] = [
@@ -99,25 +106,87 @@ export const services: Service[] = [
     slug: "fontaneria",
     name: "Fontanería",
     short: "Fontanería",
-    summary:
-      "Fugas, averías, instalaciones de agua nuevas, sanitarios, grifería y reformas de baño.",
+    summary: "Reformas de baño, averías e instalaciones de agua.",
     icon: DropletIcon,
+    photo: {
+      src: "/fotos/bano-inodoro.jpg",
+      alt: "Baño reformado por akiMAT con inodoro suspendido y azulejo tropical",
+    },
+  },
+  {
+    slug: "calderas-de-gas",
+    name: "Instalación de calderas",
+    short: "Calderas",
+    summary: "Cambio e instalación de calderas, radiadores y suelo radiante.",
+    icon: FireIcon,
+    photo: {
+      // TODO: sustituir por la foto de la sala de calderas o del suelo radiante.
+      src: "/fotos/nave-industrial.jpg",
+      alt: "Instalación de calefacción en una nave industrial",
+    },
+  },
+  {
+    slug: "aerotermia",
+    name: "Aerotermia",
+    short: "Aerotermia",
+    summary: "Calefacción, frío y agua caliente con una bomba de calor.",
+    icon: Leaf01Icon,
+    photo: {
+      // TODO: sustituir por la foto de la unidad Kosner en la cubierta.
+      src: "/fotos/flota-canfranc.jpg",
+      alt: "Instalación de aerotermia",
+    },
   },
   {
     slug: "aire-acondicionado",
     name: "Aire acondicionado",
-    short: "Aire acondicionado",
-    summary:
-      "Instalación, mantenimiento y reparación de equipos split, multisplit y por conductos.",
+    short: "Aire",
+    summary: "Split, multisplit y conductos para casas y negocios.",
     icon: AirVentIcon,
+    photo: {
+      // TODO: sustituir por una foto de un equipo de aire instalado.
+      src: "/fotos/furgoneta-electrica.jpg",
+      alt: "Instalación de aire acondicionado",
+    },
+  },
+]
+
+export type Brand = { name: string; logo?: string; width?: number }
+
+/** Marcas que instalan. Kosner no tiene logo todavía: se dibuja como texto. */
+export const brands: Brand[] = [
+  { name: "Sime", logo: "/marcas/sime.webp", width: 120 },
+  { name: "Kosner" },
+  { name: "Greenheiss", logo: "/marcas/greenheiss.webp", width: 150 },
+]
+
+export type Photo = { src: string; alt: string; width: number; height: number }
+
+/** Fotos de trabajos para la galería. Añade aquí las nuevas. */
+export const works: Photo[] = [
+  {
+    src: "/fotos/bano-inodoro.jpg",
+    alt: "Baño con inodoro suspendido y azulejo de hojas tropicales",
+    width: 1500,
+    height: 2000,
   },
   {
-    slug: "calderas-de-gas",
-    name: "Calderas de gas",
-    short: "Calderas",
-    summary:
-      "Instalación y cambio de calderas de condensación, reparación de averías y revisiones.",
-    icon: FireIcon,
+    src: "/fotos/furgoneta-electrica.jpg",
+    alt: "Furgoneta eléctrica de akiMAT",
+    width: 2000,
+    height: 1506,
+  },
+  {
+    src: "/fotos/nave-industrial.jpg",
+    alt: "Nave industrial preparada para instalar calefacción",
+    width: 1800,
+    height: 1350,
+  },
+  {
+    src: "/fotos/flota-canfranc.jpg",
+    alt: "Furgonetas de akiMAT en un trabajo fuera de Pamplona",
+    width: 1600,
+    height: 1200,
   },
 ]
 

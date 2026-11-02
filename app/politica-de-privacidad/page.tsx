@@ -13,7 +13,7 @@ export default function PoliticaDePrivacidadPage() {
   return (
     <LegalPage
       title="Política de privacidad"
-      updated="octubre de 2026"
+      updated="noviembre de 2026"
       intro={
         <p>
           En {business.legalName} respetamos tu privacidad. Aquí te explicamos,

@@ -29,7 +29,7 @@ export default function PoliticaDeCookiesPage() {
   return (
     <LegalPage
       title="Política de cookies"
-      updated="octubre de 2026"
+      updated="noviembre de 2026"
       intro={
         <p>
           Las cookies son pequeños archivos que algunas webs guardan en tu

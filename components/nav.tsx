@@ -2,211 +2,174 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { Cancel01Icon, Menu01Icon } from "@hugeicons/core-free-icons"
+import {
+  Call02Icon,
+  Cancel01Icon,
+  Menu01Icon,
+} from "@hugeicons/core-free-icons"
 import { Logo } from "@/components/logo"
+import { WhatsAppIcon } from "@/components/whatsapp-button"
+import { business, whatsappLink } from "@/lib/site"
 import { cn } from "@/lib/utils"
 
 const links = [
   { label: "Servicios", href: "/#servicios" },
-  { label: "Cómo trabajamos", href: "/#proceso" },
-  { label: "Zona", href: "/#zona" },
-  { label: "Dudas", href: "/#dudas" },
+  { label: "Trabajos", href: "/#trabajos" },
+  { label: "Nosotros", href: "/#nosotros" },
   { label: "Contacto", href: "/#contacto" },
 ]
 
-const sectionIds = [
-  "servicios",
-  "proceso",
-  "presupuesto",
-  "zona",
-  "dudas",
-  "contacto",
-]
-
-export function Nav() {
-  const pathname = usePathname()
-  const [expanded, setExpanded] = useState(false)
+/**
+ * Barra superior. Sobre una foto (`onPhoto`) empieza en blanco y, al hacer
+ * scroll, pasa a fondo blanco translúcido con texto negro.
+ */
+export function Nav({ onPhoto = true }: { onPhoto?: boolean }) {
+  const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState("")
 
-  // La isla se abre sola al poco de cargar, o en cuanto el usuario hace
-  // scroll o pasa el ratón; una vez abierta se queda abierta.
   useEffect(() => {
-    const timer = setTimeout(() => setExpanded(true), 600)
-    const onScroll = () => {
-      if (window.scrollY > 24) setExpanded(true)
-    }
+    const onScroll = () => setScrolled(window.scrollY > 32)
+    onScroll()
     window.addEventListener("scroll", onScroll, { passive: true })
-    return () => {
-      clearTimeout(timer)
-      window.removeEventListener("scroll", onScroll)
-    }
+    return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
   useEffect(() => {
-    const onScroll = () => {
-      const threshold = window.innerHeight * 0.3
-      let current = ""
-      for (const id of sectionIds) {
-        const el = document.getElementById(id)
-        if (el && el.getBoundingClientRect().top <= threshold) current = id
-      }
-      setActiveSection(current)
-    }
-
-    const frame = requestAnimationFrame(onScroll)
-    window.addEventListener("scroll", onScroll, { passive: true })
+    document.body.style.overflow = open ? "hidden" : ""
     return () => {
-      cancelAnimationFrame(frame)
-      window.removeEventListener("scroll", onScroll)
+      document.body.style.overflow = ""
     }
-  }, [])
+  }, [open])
 
-  const isLinkActive = (href: string) =>
-    href.startsWith("/#")
-      ? pathname === "/" && activeSection === href.slice(2)
-      : pathname.startsWith(href)
+  const light = onPhoto && !scrolled && !open
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 top-4 z-50 flex justify-center px-4">
-      <div className="pointer-events-auto relative flex flex-col items-center">
-        {/* ── La isla ── */}
-        <nav
-          aria-label="Navegación principal"
-          data-expanded={expanded}
-          onMouseEnter={() => setExpanded(true)}
-          onFocus={() => setExpanded(true)}
-          className={cn(
-            "relative flex h-15 w-[156px] items-center overflow-hidden rounded-full",
-            "border border-white/10 bg-ink-900/85 backdrop-blur-2xl",
-            "shadow-[0_4px_32px_rgba(0,0,0,0.35),0_1px_0_rgba(255,255,255,0.06)_inset]",
-            "transition-[width] duration-[420ms] ease-[cubic-bezier(0.34,1.36,0.64,1)]",
-            "data-[expanded=true]:w-[208px] md:data-[expanded=true]:w-[800px] lg:data-[expanded=true]:w-[880px]"
-          )}
-        >
+    <>
+      <header
+        className={cn(
+          "fixed inset-x-0 top-0 z-50 transition-[background-color,color,border-color,backdrop-filter] duration-300",
+          light
+            ? "border-b border-transparent text-white"
+            : "border-b border-line bg-white/85 text-ink backdrop-blur-xl",
+          open && "bg-white"
+        )}
+      >
+        <div className="container-x flex h-16 items-center justify-between gap-6 md:h-20">
           <Link
             href="/"
             aria-label="akiMAT, ir al inicio"
-            className={cn(
-              "flex shrink-0 items-center text-white",
-              expanded ? "pr-3 pl-6" : "px-[22px]",
-              "transition-[padding] duration-[420ms] ease-[cubic-bezier(0.34,1.36,0.64,1)]"
-            )}
+            className="shrink-0"
+            onClick={() => setOpen(false)}
           >
-            <Logo tagline={false} className="w-[112px]" />
+            <Logo tagline={false} className="w-28 md:w-32" />
           </Link>
 
-          {/* Enlaces — escritorio */}
-          <ul
-            className={cn(
-              "hidden flex-1 items-center justify-center gap-0.5 md:flex",
-              "transition-opacity duration-200",
-              expanded
-                ? "opacity-100 delay-150"
-                : "pointer-events-none opacity-0 delay-0"
-            )}
-          >
-            {links.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className={cn(
-                    "rounded-full px-3.5 py-2 text-[15px] whitespace-nowrap transition-colors lg:px-4",
-                    isLinkActive(link.href)
-                      ? "bg-white/10 text-white"
-                      : "text-zinc-300 hover:bg-white/10 hover:text-white"
-                  )}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <nav aria-label="Navegación principal" className="hidden md:block">
+            <ul className="flex items-center gap-1">
+              {links.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className={cn(
+                      "rounded-full px-4 py-2 text-[15px] font-medium transition-colors",
+                      light ? "hover:bg-white/15" : "hover:bg-paper-2"
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-          {/* CTA — escritorio */}
-          <div
-            className={cn(
-              "hidden shrink-0 pr-1.5 md:flex",
-              "transition-opacity duration-200",
-              expanded
-                ? "opacity-100 delay-150"
-                : "pointer-events-none opacity-0 delay-0"
-            )}
-          >
+          <div className="hidden items-center gap-2 md:flex">
+            <a
+              href={business.phone.href}
+              className={cn(
+                "hidden items-center gap-2 rounded-full px-4 py-2 text-[15px] font-semibold tabular-nums transition-colors lg:inline-flex",
+                light ? "hover:bg-white/15" : "hover:bg-paper-2"
+              )}
+            >
+              <HugeiconsIcon icon={Call02Icon} size={17} />
+              {business.phone.display}
+            </a>
             <Link
               href="/#presupuesto"
-              className="inline-flex h-11 items-center rounded-full bg-brand-primary px-5 text-[15px] font-semibold whitespace-nowrap text-brand-primary-foreground transition-colors hover:bg-brand-primary-hover"
+              className="inline-flex h-10 items-center rounded-full bg-brand-primary px-5 text-[15px] font-semibold text-white transition-colors hover:bg-brand-primary-hover"
             >
-              Pide presupuesto
+              Presupuesto
             </Link>
           </div>
 
-          {/* Hamburguesa — móvil */}
-          <div
+          <button
+            type="button"
+            onClick={() => setOpen((value) => !value)}
+            aria-label={open ? "Cerrar menú" : "Abrir menú"}
+            aria-expanded={open}
+            aria-controls="menu-movil"
             className={cn(
-              "ml-auto flex shrink-0 pr-2.5 md:hidden",
-              "transition-opacity duration-200",
-              expanded
-                ? "opacity-100 delay-150"
-                : "pointer-events-none opacity-0 delay-0"
+              "flex size-11 items-center justify-center rounded-full transition-colors md:hidden",
+              light ? "hover:bg-white/15" : "hover:bg-paper-2"
             )}
           >
-            <button
-              type="button"
-              onClick={() => setOpen(!open)}
-              aria-label={open ? "Cerrar menú" : "Abrir menú"}
-              aria-expanded={open}
-              aria-controls="menu-movil"
-              className="flex size-10 items-center justify-center rounded-full text-zinc-300 transition-colors hover:bg-white/10 hover:text-white"
-            >
-              <HugeiconsIcon
-                icon={open ? Cancel01Icon : Menu01Icon}
-                size={18}
-              />
-            </button>
-          </div>
-        </nav>
+            <HugeiconsIcon icon={open ? Cancel01Icon : Menu01Icon} size={22} />
+          </button>
+        </div>
+      </header>
 
-        {/* ── Menú desplegable móvil ── */}
-        <div
-          id="menu-movil"
-          className={cn(
-            "absolute top-full mt-2 w-56 overflow-hidden rounded-2xl md:hidden",
-            "border border-white/10 bg-ink-900/95 backdrop-blur-2xl",
-            "shadow-[0_8px_32px_rgba(0,0,0,0.35)]",
-            "flex flex-col gap-0.5 p-1.5",
-            "origin-top transition-all duration-300",
-            open
-              ? "pointer-events-auto translate-y-0 scale-y-100 opacity-100"
-              : "pointer-events-none invisible -translate-y-1 scale-y-95 opacity-0"
-          )}
-        >
-          {links.map((link) => (
+      {/* Menú móvil a pantalla completa */}
+      <div
+        id="menu-movil"
+        aria-hidden={!open}
+        className={cn(
+          "fixed inset-0 z-40 flex flex-col bg-white px-6 pt-24 pb-8 transition-all duration-300 md:hidden",
+          open
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none invisible opacity-0"
+        )}
+      >
+        <nav aria-label="Navegación móvil" className="flex flex-col">
+          {links.map((link, i) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
+              style={{ transitionDelay: open ? `${80 + i * 50}ms` : "0ms" }}
               className={cn(
-                "rounded-xl px-3 py-2.5 text-sm transition-colors",
-                isLinkActive(link.href)
-                  ? "bg-white/10 text-white"
-                  : "text-zinc-300 hover:bg-white/10 hover:text-white"
+                "border-b border-line py-4 font-heading text-3xl font-semibold text-ink transition-all duration-500",
+                open ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
               )}
             >
               {link.label}
             </Link>
           ))}
-          <Link
-            href="/#presupuesto"
-            onClick={() => setOpen(false)}
-            className="mt-0.5 rounded-xl bg-brand-primary px-3 py-2.5 text-center text-sm font-semibold text-brand-primary-foreground transition-colors hover:bg-brand-primary-hover"
+        </nav>
+
+        <div className="mt-auto flex flex-col gap-3">
+          <a
+            href={whatsappLink("Hola akiMAT, me gustaría pedir presupuesto.")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-14 items-center justify-center gap-2.5 rounded-full bg-ink text-base font-semibold text-white"
           >
-            Pide presupuesto
-          </Link>
+            <WhatsAppIcon className="size-5" />
+            Pedir presupuesto
+          </a>
+          <div className="grid grid-cols-2 gap-3">
+            {[business.phone, business.mobile].map((phone) => (
+              <a
+                key={phone.href}
+                href={phone.href}
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-line text-[15px] font-semibold text-ink tabular-nums"
+              >
+                <HugeiconsIcon icon={Call02Icon} size={16} />
+                {phone.display}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }

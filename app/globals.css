@@ -3,19 +3,17 @@
 @import "shadcn/tailwind.css";
 
 @theme inline {
-    /* Colores de marca, tomados del logo de akiMAT */
+    /* Colores de marca: cian y negro del logo, rojo de las furgonetas */
     --color-brand-primary: #0099d6;
-    --color-brand-primary-foreground: #031620;
-    --color-brand-primary-hover: #1aa9e3;
-    --color-brand-ink: #111016;
-
-    /* Escala de fondos oscuros con un toque azulado (agua / frío) */
-    --color-ink-950: #04080c;
-    --color-ink-900: #08111a;
-    --color-ink-850: #0b1620;
-    --color-ink-800: #0f1c27;
-    --color-ink-700: #172a38;
-    --color-ink-600: #22394a;
+    --color-brand-primary-hover: #0084b9;
+    --color-brand-primary-foreground: #ffffff;
+    --color-brand-text: #007bb0;
+    --color-brand-heat: #d71f26;
+    --color-ink: #111016;
+    --color-ink-soft: #5b6570;
+    --color-paper: #ffffff;
+    --color-paper-2: #f3f6f8;
+    --color-line: #e5eaee;
 
     --font-heading: var(--font-display);
     --font-sans: var(--font-sans);
@@ -61,37 +59,37 @@
 
 :root {
     --brand-primary: #0099d6;
-    --background: #04080c;
-    --foreground: oklch(0.985 0 0);
-    --card: #0b1620;
-    --card-foreground: oklch(0.985 0 0);
-    --popover: #0b1620;
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: #172a38;
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: #172a38;
-    --muted-foreground: oklch(0.72 0.015 240);
-    --accent: #172a38;
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
+    --background: #ffffff;
+    --foreground: #111016;
+    --card: #ffffff;
+    --card-foreground: #111016;
+    --popover: #ffffff;
+    --popover-foreground: #111016;
+    --primary: #111016;
+    --primary-foreground: #ffffff;
+    --secondary: #f3f6f8;
+    --secondary-foreground: #111016;
+    --muted: #f3f6f8;
+    --muted-foreground: #5b6570;
+    --accent: #f3f6f8;
+    --accent-foreground: #111016;
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: #e5eaee;
+    --input: #e5eaee;
     --ring: #0099d6;
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --radius: 0.45rem;
-    --sidebar: #0b1620;
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.922 0 0);
-    --sidebar-primary-foreground: oklch(0.205 0 0);
-    --sidebar-accent: #172a38;
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
+    --chart-1: #0099d6;
+    --chart-2: #d71f26;
+    --chart-3: #111016;
+    --chart-4: #5b6570;
+    --chart-5: #e5eaee;
+    --radius: 0.5rem;
+    --sidebar: #ffffff;
+    --sidebar-foreground: #111016;
+    --sidebar-primary: #111016;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #f3f6f8;
+    --sidebar-accent-foreground: #111016;
+    --sidebar-border: #e5eaee;
     --sidebar-ring: #0099d6;
 }
 
@@ -122,11 +120,6 @@
   100% { transform: scale(1.6); opacity: 0; }
 }
 
-@keyframes pulse-ring {
-  0% { transform: scale(1); opacity: 0.55; }
-  100% { transform: scale(2.6); opacity: 0; }
-}
-
 .animate-airflow {
   stroke-dasharray: 18 46;
   animation: airflow 2.6s linear infinite;
@@ -150,16 +143,11 @@
   animation: ripple 2.4s ease-out infinite;
 }
 
-.animate-pulse-ring {
-  animation: pulse-ring 2.4s ease-out infinite;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .animate-airflow,
   .animate-flame,
   .animate-drip,
-  .animate-ripple,
-  .animate-pulse-ring {
+  .animate-ripple {
     animation: none;
   }
 }
@@ -179,7 +167,10 @@
     scroll-behavior: smooth;
     }
   ::selection {
-    background: color-mix(in srgb, var(--brand-primary) 55%, transparent);
-    color: #fff;
+    background: color-mix(in srgb, var(--brand-primary) 30%, transparent);
     }
+}
+
+@utility container-x {
+  @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12;
 }

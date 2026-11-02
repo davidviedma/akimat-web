@@ -15,7 +15,7 @@ export default function AvisoLegalPage() {
   return (
     <LegalPage
       title="Aviso legal"
-      updated="octubre de 2026"
+      updated="noviembre de 2026"
       intro={
         <p>
           En cumplimiento de la Ley 34/2002, de Servicios de la Sociedad de la

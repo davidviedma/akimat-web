@@ -64,24 +64,25 @@ export function FrigoriasCalculator() {
   const frigorias = Math.round((area * FRIGORIAS_POR_M2 * factor) / 50) * 50
   const kw = frigorias / FRIGORIAS_POR_KW
   const recommended = sizes.find((size) => size >= kw - 0.05)
+  const progress = ((area - 6) / 74) * 100
 
   const message = `Hola akiMAT, quiero instalar aire acondicionado en una estancia de unos ${area} m². La calculadora me sale unas ${frigorias.toLocaleString("es-ES")} frigorías. ¿Me dais presupuesto?`
 
   return (
-    <div className="grid grid-cols-1 overflow-hidden rounded-[2rem] border border-white/10 bg-ink-900 lg:grid-cols-[1.2fr_1fr]">
+    <div className="grid grid-cols-1 overflow-hidden rounded-[2rem] border border-line bg-white lg:grid-cols-[1.2fr_1fr]">
       {/* Datos */}
       <div className="flex flex-col gap-8 p-7 sm:p-10">
         <div className="flex flex-col gap-4">
           <div className="flex items-end justify-between gap-4">
             <label
               htmlFor={sliderId}
-              className="font-heading text-lg font-semibold text-white"
+              className="font-heading text-lg font-semibold text-ink"
             >
               Superficie de la estancia
             </label>
-            <span className="font-heading text-3xl font-bold text-white tabular-nums">
+            <span className="font-heading text-3xl font-bold text-ink tabular-nums">
               {area}
-              <span className="ml-1 text-base font-medium text-zinc-400">
+              <span className="ml-1 text-base font-medium text-ink-soft">
                 m²
               </span>
             </span>
@@ -94,19 +95,19 @@ export function FrigoriasCalculator() {
             step={1}
             value={area}
             onChange={(event) => setArea(Number(event.target.value))}
-            className="h-2 w-full cursor-pointer appearance-none rounded-full bg-ink-700 accent-brand-primary [&::-moz-range-thumb]:size-6 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-brand-primary [&::-webkit-slider-thumb]:size-6 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-brand-primary [&::-webkit-slider-thumb]:shadow-[0_0_0_6px_rgba(0,153,214,0.25)]"
+            className="h-2 w-full cursor-pointer appearance-none rounded-full accent-brand-primary [&::-moz-range-thumb]:size-6 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:bg-brand-primary [&::-webkit-slider-thumb]:size-6 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-brand-primary [&::-webkit-slider-thumb]:shadow-[0_0_0_6px_rgba(0,153,214,0.2)]"
             style={{
-              background: `linear-gradient(to right, #0099d6 ${((area - 6) / 74) * 100}%, #172a38 ${((area - 6) / 74) * 100}%)`,
+              background: `linear-gradient(to right, #0099d6 ${progress}%, #e5eaee ${progress}%)`,
             }}
           />
-          <div className="flex justify-between text-xs text-zinc-500">
+          <div className="flex justify-between text-xs text-ink-soft">
             <span>6 m²</span>
             <span>80 m²</span>
           </div>
         </div>
 
         <fieldset className="flex flex-col gap-3">
-          <legend className="mb-3 font-heading text-lg font-semibold text-white">
+          <legend className="mb-3 font-heading text-lg font-semibold text-ink">
             ¿Cómo es la estancia?
           </legend>
           {extras.map((extra) => {
@@ -125,33 +126,33 @@ export function FrigoriasCalculator() {
                 }
                 className={cn(
                   "flex items-center gap-4 rounded-2xl border p-4 text-left transition-colors",
-                  "focus-visible:ring-3 focus-visible:ring-brand-primary/40 focus-visible:outline-none",
+                  "focus-visible:ring-3 focus-visible:ring-brand-primary/35 focus-visible:outline-none",
                   on
                     ? "border-brand-primary bg-brand-primary/10"
-                    : "border-white/10 bg-white/[0.03] hover:border-white/25"
+                    : "border-line bg-white hover:border-ink/40"
                 )}
               >
                 <HugeiconsIcon
                   icon={extra.icon}
                   size={22}
-                  className={on ? "text-brand-primary" : "text-zinc-400"}
+                  className={on ? "text-brand-text" : "text-ink-soft"}
                 />
                 <span className="flex flex-1 flex-col">
-                  <span className="text-[15px] font-semibold text-white">
+                  <span className="text-[15px] font-semibold text-ink">
                     {extra.label}
                   </span>
-                  <span className="text-xs text-zinc-400">{extra.hint}</span>
+                  <span className="text-xs text-ink-soft">{extra.hint}</span>
                 </span>
                 <span
                   aria-hidden="true"
                   className={cn(
                     "relative h-6 w-11 shrink-0 rounded-full transition-colors",
-                    on ? "bg-brand-primary" : "bg-ink-700"
+                    on ? "bg-brand-primary" : "bg-line"
                   )}
                 >
                   <span
                     className={cn(
-                      "absolute top-1 left-1 size-4 rounded-full bg-white transition-transform",
+                      "absolute top-1 left-1 size-4 rounded-full bg-white shadow transition-transform",
                       on && "translate-x-5"
                     )}
                   />
@@ -164,18 +165,18 @@ export function FrigoriasCalculator() {
 
       {/* Resultado */}
       <div
-        className="relative flex flex-col justify-between gap-8 bg-ink-950 bg-[radial-gradient(circle_at_70%_20%,rgba(0,153,214,0.35),transparent_60%)] p-7 sm:p-10"
+        className="relative flex flex-col justify-between gap-8 bg-ink bg-[radial-gradient(circle_at_70%_20%,rgba(0,153,214,0.35),transparent_60%)] p-7 text-white sm:p-10"
         aria-live="polite"
       >
         <div className="flex flex-col gap-2">
           <p className="text-sm font-semibold tracking-widest text-brand-primary uppercase">
             Potencia orientativa
           </p>
-          <p className="font-heading text-6xl leading-none font-bold text-white tabular-nums md:text-7xl">
+          <p className="font-heading text-6xl leading-none font-bold tabular-nums md:text-7xl">
             <CountUp to={frigorias} separator="." duration={0.6} />
           </p>
-          <p className="text-zinc-400">frigorías/hora</p>
-          <p className="mt-2 text-zinc-300">
+          <p className="text-white/60">frigorías/hora</p>
+          <p className="mt-2 text-white/85">
             Equivale a unos{" "}
             <span className="font-semibold text-white">
               {kw.toLocaleString("es-ES", { maximumFractionDigits: 1 })} kW
@@ -184,9 +185,9 @@ export function FrigoriasCalculator() {
           </p>
         </div>
 
-        <div className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+        <div className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/5 p-5">
           {recommended ? (
-            <p className="text-zinc-300">
+            <p className="text-white/85">
               Un equipo de{" "}
               <span className="font-heading text-2xl font-bold text-brand-primary">
                 {recommended.toLocaleString("es-ES")} kW
@@ -194,7 +195,7 @@ export function FrigoriasCalculator() {
               debería ser suficiente.
             </p>
           ) : (
-            <p className="text-zinc-300">
+            <p className="text-white/85">
               Para esta superficie conviene estudiar un{" "}
               <span className="font-semibold text-white">
                 multisplit o conductos
@@ -206,17 +207,17 @@ export function FrigoriasCalculator() {
             href={whatsappLink(message)}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex h-11 w-fit items-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-zinc-900 transition-colors hover:bg-white/90"
+            className="inline-flex h-11 w-fit items-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-ink transition-colors hover:bg-white/90"
           >
             <WhatsAppIcon className="size-4" />
             Pedir presupuesto con este dato
           </a>
         </div>
 
-        <p className="text-xs leading-relaxed text-zinc-500">
-          Cálculo orientativo para estancias de altura normal (unos 2,5 m). La
-          potencia exacta depende del aislamiento, las ventanas y el uso: en la
-          visita lo ajustamos a tu caso.
+        <p className="text-xs leading-relaxed text-white/50">
+          Cálculo orientativo para estancias de altura normal. La potencia
+          exacta depende del aislamiento, las ventanas y el uso: en la visita lo
+          ajustamos.
         </p>
       </div>
     </div>
