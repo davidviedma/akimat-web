@@ -77,7 +77,7 @@ export function Resenas() {
               {rating}
             </span>
             <Stars rating={Math.round(googleReviews.rating)} />
-            <span>de media en {googleReviews.count} reseñas</span>
+            <span>de media en +{googleReviews.minCount} reseñas</span>
           </p>
           <a
             href={googleReviews.url}

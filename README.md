@@ -64,9 +64,11 @@ de Google de akiMAT (`reviews` en `lib/site.ts`):
 - El texto va tal cual lo escribió el cliente (solo se corrigen espacios y
   signos sueltos). De los autores se publica el nombre y la inicial del
   apellido.
-- `googleReviews` guarda la nota media y el número de reseñas que mostraba
-  Google en noviembre de 2026 (4,1 en 18 reseñas): hay que actualizarlos de vez
-  en cuando. `googleReviews.url` es el enlace de "Ver todas las reseñas".
+- `googleReviews` guarda la nota media (`rating`) y el número de reseñas en
+  redondo (`minCount`, se muestra como "+20 reseñas"). Son las cifras que dio
+  el cliente en noviembre de 2026 (4,3 y más de 20): hay que contrastarlas con
+  la ficha de vez en cuando. `googleReviews.url` es el enlace de "Ver todas
+  las reseñas".
 - En escritorio la fila se desplaza sola y se para al pasar el ratón; en el
   móvil se pasa con el dedo.
 

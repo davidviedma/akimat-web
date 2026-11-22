@@ -414,13 +414,15 @@ export type Review = {
 }
 
 /**
- * Ficha de Google de akiMAT. `rating` y `count` son los que mostraba Google en
- * noviembre de 2026: actualízalos de vez en cuando.
+ * Ficha de Google de akiMAT. `rating` es la nota media y `minCount` el número
+ * de reseñas en redondo, por debajo del real: se muestra como "+20 reseñas".
+ * Son las cifras que dio el cliente en noviembre de 2026: contrástalas con la
+ * ficha de vez en cuando, porque el botón de al lado lleva a ella.
  * TODO: cambiar `url` por el enlace de "Compartir" de la ficha de Google.
  */
 export const googleReviews = {
-  rating: 4.1,
-  count: 18,
+  rating: 4.3,
+  minCount: 20,
   url: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
     `Akimat Servicios Integrales ${business.address.city}`
   )}`,
