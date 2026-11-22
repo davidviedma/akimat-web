@@ -35,6 +35,13 @@ Todas las páginas comparten la barra de navegación tipo "isla" (está en
 También genera `sitemap.xml`, `robots.txt`, favicon, icono de Apple e imagen
 para redes sociales (`public/og-image.jpg`).
 
+Esa imagen es la portada que sale al compartir el enlace (WhatsApp, redes).
+Para que se vea, su URL tiene que ser la de la web publicada: `SITE_URL`
+(`lib/site.ts`) la toma del dominio de producción del proyecto en Vercel, así
+que funciona tanto con el enlace provisional `*.vercel.app` como con el dominio
+definitivo cuando se añada. WhatsApp guarda la vista previa de cada enlace: si
+cambias la imagen, puede tardar en actualizarse.
+
 ## Dónde se cambian los datos
 
 Todo lo que es de la empresa (teléfonos, WhatsApp, email, dirección, mapa,
@@ -133,7 +140,9 @@ Commons Clause (ver `components/reactbits/LICENSE.md`).
 ## Pendiente antes de publicar
 
 - [ ] Confirmar teléfonos, email y que el móvil tiene WhatsApp.
-- [ ] Dominio definitivo (`SITE_URL`, ahora `https://www.akimat.es`).
+- [ ] Dominio definitivo: añadirlo al proyecto en Vercel y volver a desplegar;
+      `SITE_URL` lo recoge solo. Vercel da el dominio más corto (sin `www`): si
+      el principal va a ser `www.…`, fijar `SITE_URL` a mano en `lib/site.ts`.
 - [ ] Abrir el mapa del pie en la web publicada y comprobar que el marcador
       cae sobre la nave (las coordenadas están en `location.coords`).
 - [ ] Poner en `googleReviews.url` el enlace de "Compartir" de la ficha de

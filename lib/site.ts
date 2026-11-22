@@ -17,8 +17,20 @@ import {
  * sobre todo los marcados con TODO.
  */
 
+/**
+ * Dirección pública de la web. De ella salen las URL absolutas: la portada que
+ * se ve al compartir el enlace (Open Graph), canonical, sitemap y datos
+ * estructurados.
+ *
+ * En Vercel es el dominio de producción del proyecto: el `*.vercel.app`
+ * mientras no haya dominio propio y, cuando se añada, ese dominio (Vercel da
+ * el más corto, sin `www`, y hace falta un despliegue nuevo para recogerlo).
+ * Fuera de Vercel se usa el dominio previsto.
+ */
 // TODO: confirmar el dominio definitivo de la web.
-export const SITE_URL = "https://www.akimat.es"
+const PLANNED_URL = "https://www.akimat.es"
+const vercelHost = process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL
+export const SITE_URL = vercelHost ? `https://${vercelHost}` : PLANNED_URL
 
 export const business = {
   name: "akiMAT",

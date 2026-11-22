@@ -74,6 +74,11 @@ fotos-sin-usar/              client photos not on the site (kept out of public/)
   chooser. Work photos are portrait 4:5. Strip metadata and check that no
   customer data (addresses, names, plates) is legible before publishing one.
 - Above-the-fold images use `preload` (`priority` is deprecated in Next 16).
+- `SITE_URL` (`lib/site.ts`) is the origin for every absolute URL (share cover
+  `og:image`, canonical, sitemap, JSON-LD). On Vercel it follows the project's
+  production domain (`NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL`): the
+  `*.vercel.app` link until a custom domain is added. Never hardcode a domain
+  anywhere else, or link previews (WhatsApp) lose their cover.
 - Copy is Spanish (Spain), short. Avoid unverifiable claims unless the client
   confirms them; "Desde 2006" and the electric fleet come from their own signage.
 - Boilers are advertised as Sime only: the client asked (Nov 2026) to leave
