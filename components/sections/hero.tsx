@@ -5,7 +5,6 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import { Call02Icon } from "@hugeicons/core-free-icons"
 import vanPhoto from "@/public/fotos/furgoneta-electrica.jpg"
 import BlurText from "@/components/reactbits/BlurText"
-import GradualBlur from "@/components/reactbits/GradualBlur"
 import { Button } from "@/components/ui/button"
 import { WhatsAppIcon } from "@/components/whatsapp-button"
 import { business, serviceArea, whatsappLink } from "@/lib/site"
@@ -26,15 +25,6 @@ export function Hero() {
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/35 to-ink/10"
-      />
-      {/* Desenfoque progresivo bajo la barra de navegación (React Bits · GradualBlur) */}
-      <GradualBlur
-        position="top"
-        height="6rem"
-        strength={1.2}
-        opacity={0.8}
-        curve="ease-out"
-        zIndex={5}
       />
 
       <div className="relative z-10 container-x flex flex-col gap-8 pt-40 pb-12 md:pb-16">

@@ -43,18 +43,21 @@ app/
   aviso-legal/ politica-de-privacidad/ politica-de-cookies/
   icon.svg apple-icon.png favicon.ico sitemap.ts robots.ts not-found.tsx
 components/
-  nav.tsx                    top bar (white over photos, ink after scroll)
+  nav.tsx                    floating "island" nav, rendered once in the layout
   logo.tsx                   vectorised logo (aki + tagline use currentColor)
   reveal.tsx                 motion whileInView wrapper
   illustrations.tsx          SVG faucet for the 404 page
   map-embed.tsx              footer Google map, loaded on click
+  aurora-backdrop.tsx        lazy WebGL aurora behind the aerotermia band
   sections/                  home sections, one file each
   landing.tsx                building blocks for the service pages
   legal-page.tsx             layout for the legal pages
   frigorias-calculator.tsx   AC sizing calculator (uses CountUp)
   reactbits/                 components copied from reactbits.dev
 lib/
-  site.ts                    business data, map links, photos, services, works
+  site.ts                    business data, map links, photos, services,
+                             works, Google reviews
+  images.ts                  optimizedSrc() for components that don't use <Image>
   utils.ts                   cn()
 public/fotos/                client photos, cropped and without metadata
 public/calderas/, public/marcas/   Sime product renders, brand logos
@@ -73,6 +76,17 @@ fotos-sin-usar/              client photos not on the site (kept out of public/)
 - Above-the-fold images use `preload` (`priority` is deprecated in Next 16).
 - Copy is Spanish (Spain), short. Avoid unverifiable claims unless the client
   confirms them; "Desde 2006" and the electric fleet come from their own signage.
+- Boilers are advertised as Sime only: the client asked (Nov 2026) to leave
+  Kosner out of the boiler copy for now. Kosner still appears for aerotermia,
+  air conditioning and in the brands strip.
+- The boiler-change time is the client's own figure
+  (`business.boilerSwapHours`, exported as `boilerSwap` = "4 horas de media").
+  Always word it as an average, never as a guarantee.
+- Reviews (`reviews` in `lib/site.ts`) are real Google reviews: keep the text
+  verbatim (only fix spacing/stray punctuation), publish first name + surname
+  initial only, and keep `googleReviews` (average and count) truthful.
+- `<Nav />` lives in `app/layout.tsx`; pages must not render their own. Its
+  open/closed widths are the `--island-*` variables set in `nav.tsx`.
 - Section pattern: uppercase eyebrow in `text-brand-text`, `font-heading` title
   ending in a period, at most one line of intro.
 - Layout utility: `container-x` (max-w-7xl + responsive padding).
@@ -83,7 +97,8 @@ fotos-sin-usar/              client photos not on the site (kept out of public/)
   lint rules `react-hooks/refs`, `react-hooks/exhaustive-deps` and
   `no-explicit-any` are off for that folder only. Mark local changes with an
   `akiMAT:` comment and keep the license header. WebGL components must not call
-  `loseContext()` on cleanup (breaks under React Strict Mode).
+  `loseContext()` on cleanup unless guarded by `!canvas.isConnected` (an
+  unguarded call breaks under React Strict Mode).
 - The site sets no cookies and loads no third-party content on its own: the
   footer Google map only loads after the visitor clicks "Ver mapa"
   (`maps.autoload` in `lib/site.ts`). Adding analytics or auto-loading the map

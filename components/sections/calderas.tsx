@@ -7,9 +7,10 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import {
   ArrowRight01Icon,
   CheckmarkCircle02Icon,
+  Timer02Icon,
 } from "@hugeicons/core-free-icons"
 import { Reveal } from "@/components/reveal"
-import { photos, type Photo } from "@/lib/site"
+import { boilerSwap, photos, simeService, type Photo } from "@/lib/site"
 import { cn } from "@/lib/utils"
 
 type Boiler = {
@@ -25,8 +26,8 @@ type Boiler = {
 }
 
 // Modelos que instalan. Los datos salen de las fichas de Sime; las imágenes son
-// renders del fabricante y las fotos, instalaciones de akiMAT.
-// TODO: añadir la caldera Kosner cuando haya imagen.
+// renders del fabricante y las fotos, instalaciones de akiMAT. En calderas
+// solo se anuncia Sime: el cliente pidió no poner Kosner de momento.
 export const boilers = [
   {
     id: "praktica",
@@ -93,6 +94,14 @@ export function Calderas() {
             </h2>
             <p className="text-ink-soft">
               Elige tu caso y te decimos cuál suele encajar.
+            </p>
+            <p className="mt-1 inline-flex w-fit items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-ink shadow-[0_8px_24px_-16px_rgba(17,16,22,0.45)]">
+              <HugeiconsIcon
+                icon={Timer02Icon}
+                size={17}
+                className="text-brand-primary"
+              />
+              Te la cambiamos en {boilerSwap}
             </p>
           </div>
 
@@ -225,9 +234,17 @@ export function Calderas() {
                   />
                 </button>
               ))}
-              <span className="ml-auto text-xs text-ink-soft">
-                También instalamos Kosner
-              </span>
+              <a
+                href={simeService.url}
+                target="_blank"
+                rel="noopener"
+                className="ml-auto text-right text-xs leading-snug text-ink-soft transition-colors hover:text-ink"
+              >
+                {simeService.label}:{" "}
+                <span className="font-semibold text-ink underline decoration-line underline-offset-2">
+                  {simeService.name}
+                </span>
+              </a>
             </div>
           </div>
         </Reveal>

@@ -23,23 +23,45 @@ pnpm format
 
 | Ruta | Contenido |
 | --- | --- |
-| `/` | Cabecera con foto, marquesina curva, 4 servicios, comparador de calderas, aerotermia, flota eléctrica, galería de trabajos, marcas, presupuesto por WhatsApp y contacto |
+| `/` | Cabecera con foto, franja de datos clave, 4 servicios, comparador de calderas, aerotermia, flota eléctrica, galería de trabajos, reseñas de Google, marcas, presupuesto por WhatsApp y contacto |
 | `/fontaneria` | Fontanería, con sus trabajos |
 | `/calderas-de-gas` | Instalación de calderas (con el comparador Sime) |
 | `/aerotermia` | Aerotermia |
 | `/aire-acondicionado` | Aire acondicionado, con calculadora de frigorías |
 | `/aviso-legal`, `/politica-de-privacidad`, `/politica-de-cookies` | Textos legales |
 
-Todas las páginas terminan con el pie, que lleva el mapa de Google de la nave.
+Todas las páginas comparten la barra de navegación tipo "isla" (está en
+`app/layout.tsx`) y terminan con el pie, que lleva el mapa de Google de la nave.
 También genera `sitemap.xml`, `robots.txt`, favicon, icono de Apple e imagen
 para redes sociales (`public/og-image.jpg`).
 
 ## Dónde se cambian los datos
 
 Todo lo que es de la empresa (teléfonos, WhatsApp, email, dirección, mapa,
-horario, CIF, servicios, marcas, fotos…) está en **`lib/site.ts`**.
+horario, CIF, servicios, marcas, fotos, reseñas…) está en **`lib/site.ts`**.
 Cambiándolo ahí se actualiza toda la web, incluidos los datos estructurados para
 Google y los textos legales.
+
+El tiempo medio de un cambio de caldera ("4 horas de media") también sale de
+ahí (`business.boilerSwapHours`): es un dato de akiMAT y se nombra siempre como
+media, no como plazo garantizado.
+
+El enlace a Iruman (servicio técnico oficial de Sime en Navarra) que aparece
+bajo el comparador de calderas está en `simeService`.
+
+## Reseñas
+
+La sección "Lo que dicen nuestros clientes" muestra reseñas reales de la ficha
+de Google de akiMAT (`reviews` en `lib/site.ts`):
+
+- El texto va tal cual lo escribió el cliente (solo se corrigen espacios y
+  signos sueltos). De los autores se publica el nombre y la inicial del
+  apellido.
+- `googleReviews` guarda la nota media y el número de reseñas que mostraba
+  Google en noviembre de 2026 (4,1 en 18 reseñas): hay que actualizarlos de vez
+  en cuando. `googleReviews.url` es el enlace de "Ver todas las reseñas".
+- En escritorio la fila se desplaza sola y se para al pasar el ratón; en el
+  móvil se pasa con el dedo.
 
 ## Fotos
 
@@ -65,8 +87,6 @@ están en `fotos-sin-usar/`, fuera de `public/`, para que no se publiquen.
 
 **Pendientes de recibir:**
 
-- Flota: las tres furgonetas eléctricas en el garaje (sección "Nos movemos en
-  eléctrico"; ahora hay un detalle de la furgoneta de la cabecera).
 - Unidad Kosner en la cubierta, de cerca (tarjeta y página de aerotermia; ahora
   está la foto de los conductos en la cubierta).
 - Nave con el rótulo "Desde 2006" (sección "Dónde estamos").
@@ -94,11 +114,10 @@ Copiados de la versión TypeScript + Tailwind en `components/reactbits/`:
 | Componente | Dónde se usa |
 | --- | --- |
 | `BlurText` | Titulares de la cabecera y de las páginas de servicio |
-| `GradualBlur` | Desenfoque progresivo bajo la barra de navegación |
-| `CurvedLoop` | Marquesina curva con la rotulación de las furgonetas |
 | `GlareHover` | Brillo al pasar por las tarjetas de servicios |
+| `Aurora` | Fondo animado de la franja de aerotermia: del rojo (calor) al cian (frío) |
 | `ElectricBorder` | Borde eléctrico de "Nos movemos en eléctrico" |
-| `TiltedCard` | Foto de la furgoneta que se inclina con el ratón |
+| `TiltedCard` | Foto de la flota que se inclina con el ratón |
 | `CircularGallery` | Galería curva de trabajos (se descarga al acercarse a ella) |
 | `LogoLoop` | Marcas que instalan (Sime, Kosner, Greenheiss) |
 | `Stepper` | Asistente "Presupuesto" que prepara el mensaje de WhatsApp |
@@ -113,12 +132,16 @@ Commons Clause (ver `components/reactbits/LICENSE.md`).
 - [ ] Confirmar teléfonos, email y que el móvil tiene WhatsApp.
 - [ ] Dominio definitivo (`SITE_URL`, ahora `https://www.akimat.es`).
 - [ ] Comprobar que el marcador del mapa cae en la nave 22 (ver "Mapa de Google").
+- [ ] Poner en `googleReviews.url` el enlace de "Compartir" de la ficha de
+      Google y revisar la nota media antes de publicar.
 - [ ] Dirección fiscal para el aviso legal (si no coincide con la nave de Mutilva
       Baja) y datos de inscripción en el Registro Mercantil.
 - [ ] Logo oficial de Kosner (ahora va en texto) y permiso para usar las
       imágenes de producto de Sime (`public/calderas/`).
 - [ ] Confirmar las marcas (Sime, Kosner, Greenheiss) y los modelos del
       comparador: las calderas de las fotos son una Praktica EV HE y una Murelle.
+      En calderas solo se anuncia Sime: el cliente pidió no poner Kosner de
+      momento (sigue en aerotermia, aire acondicionado y la franja de marcas).
 - [ ] Recibir las fotos pendientes (ver arriba).
 - [ ] Si se añade analítica o el mapa pasa a cargarse solo, poner un banner de
       cookies y actualizar `/politica-de-cookies`.

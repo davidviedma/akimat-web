@@ -18,7 +18,6 @@ import {
   type Faq,
   type Feature,
 } from "@/components/landing"
-import { Nav } from "@/components/nav"
 import { Footer } from "@/components/sections/footer"
 import { WhatsAppButton } from "@/components/whatsapp-button"
 import { getService, serviceMetadata, whatsappLink, worksOf } from "@/lib/site"
@@ -86,7 +85,6 @@ export default function FontaneriaPage() {
         description={description}
         faqs={faqs}
       />
-      <Nav onPhoto={false} />
       <main>
         <ServiceHero
           label="Fontanería"

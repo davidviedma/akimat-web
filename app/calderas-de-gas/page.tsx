@@ -17,20 +17,23 @@ import {
   type Faq,
   type Feature,
 } from "@/components/landing"
-import { Nav } from "@/components/nav"
 import { Calderas } from "@/components/sections/calderas"
 import { Footer } from "@/components/sections/footer"
 import { WhatsAppButton } from "@/components/whatsapp-button"
-import { getService, serviceMetadata, whatsappLink } from "@/lib/site"
+import {
+  boilerSwap,
+  getService,
+  serviceMetadata,
+  whatsappLink,
+} from "@/lib/site"
 
 const slug = "calderas-de-gas"
 const service = getService(slug)
-const description =
-  "Instalación y cambio de calderas de condensación Sime y Kosner en Pamplona y comarca. Radiadores, suelo radiante, averías y revisiones. Presupuesto sin compromiso."
+const description = `Instalación y cambio de calderas de condensación Sime en Pamplona y comarca: te la cambiamos en ${boilerSwap}. Radiadores, suelo radiante, averías y revisiones. Presupuesto sin compromiso.`
 
 export const metadata = serviceMetadata({
   slug,
-  title: "Instalación de calderas en Pamplona · Sime y Kosner · akiMAT",
+  title: "Instalación de calderas Sime en Pamplona · akiMAT",
   description,
 })
 
@@ -42,7 +45,7 @@ const features: Feature[] = [
   {
     icon: FireIcon,
     title: "Cambio de caldera",
-    text: "Por una de condensación Sime o Kosner. Retiramos la antigua.",
+    text: `Por una de condensación Sime, en ${boilerSwap}. Retiramos la antigua.`,
   },
   {
     icon: HeaterIcon,
@@ -69,8 +72,7 @@ const faqs: Faq[] = [
   },
   {
     question: "¿Cuánto se tarda en cambiarla?",
-    answer:
-      "Un cambio sin modificar la instalación suele quedar hecho en una jornada.",
+    answer: `Unas ${boilerSwap}: el mismo día vuelves a tener calefacción y agua caliente. Si hay que modificar la instalación, puede alargarse.`,
   },
   {
     question: "¿Cada cuánto hay que revisarla?",
@@ -88,15 +90,14 @@ export default function CalderasPage() {
         description={description}
         faqs={faqs}
       />
-      <Nav onPhoto={false} />
       <main>
         <ServiceHero
           label="Calderas"
-          title="Instalación de calderas Sime y Kosner."
-          subtitle="Cambio de caldera, radiadores y suelo radiante. Calefacción y agua caliente sin preocupaciones."
+          title="Instalación de calderas Sime."
+          subtitle={`Te cambiamos la caldera en ${boilerSwap}. También radiadores y suelo radiante.`}
           photo={service.hero}
           whatsapp={whatsapp}
-          checks={["Condensación", "Sime y Kosner", "Suelo radiante"]}
+          checks={["Condensación", `Cambio en ${boilerSwap}`, "Suelo radiante"]}
         />
 
         <Section>

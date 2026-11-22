@@ -2,7 +2,6 @@ import Link from "next/link"
 import type { ReactNode } from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowLeft01Icon } from "@hugeicons/core-free-icons"
-import { Nav } from "@/components/nav"
 import { Footer } from "@/components/sections/footer"
 
 export function LegalPage({
@@ -18,7 +17,6 @@ export function LegalPage({
 }) {
   return (
     <>
-      <Nav onPhoto={false} />
       <main className="min-h-screen bg-white text-ink">
         <div className="container-x max-w-3xl pt-32 pb-24 lg:pt-40">
           <Link

@@ -126,6 +126,91 @@
   }
 }
 
+/* ── Barra de navegación "isla": aparece recogida (solo el logo) y se abre ──
+   El ancho abierto y el recogido los fija nav.tsx con --island-open y
+   --island-closed; el rebote lo da la curva de la animación. */
+
+@keyframes island-open {
+  from { width: var(--island-closed); }
+}
+
+@keyframes island-content {
+  from { opacity: 0; }
+}
+
+.island {
+  width: var(--island-open);
+  animation: island-open 0.6s cubic-bezier(0.34, 1.36, 0.64, 1) 0.45s backwards;
+}
+
+.island-content {
+  animation: island-content 0.25s ease-out 0.8s backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .island,
+  .island-content {
+    animation: none;
+  }
+}
+
+/* ── Reseñas: fila que se desplaza sola en escritorio ──
+   La lista va duplicada, así que al llegar al -50 % vuelve a empezar sin corte.
+   En pantallas táctiles o con "reducir movimiento" no se mueve: se desliza a
+   mano y la copia se oculta. */
+
+@keyframes reviews-scroll {
+  to { transform: translateX(-50%); }
+}
+
+.reviews-row {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent);
+}
+
+.reviews-track {
+  display: flex;
+  width: max-content;
+  animation: reviews-scroll 70s linear infinite;
+}
+
+.reviews-track > li {
+  flex: none;
+  padding-right: 1rem;
+}
+
+.reviews-row:hover .reviews-track,
+.reviews-row:focus-within .reviews-track {
+  animation-play-state: paused;
+}
+
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .reviews-row {
+    overflow-x: auto;
+    mask-image: none;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 1.25rem;
+    scrollbar-width: none;
+  }
+
+  .reviews-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .reviews-track {
+    animation: none;
+    padding-inline: 1.25rem 0.25rem;
+  }
+
+  .reviews-track > li {
+    scroll-snap-align: start;
+  }
+
+  .reviews-track > li[aria-hidden="true"] {
+    display: none;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

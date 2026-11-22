@@ -2,6 +2,7 @@ import { Inter, Sora } from "next/font/google"
 import type { Metadata, Viewport } from "next"
 
 import "./globals.css"
+import { Nav } from "@/components/nav"
 import { cn } from "@/lib/utils"
 import { SITE_URL, business, maps, services } from "@/lib/site"
 
@@ -29,7 +30,6 @@ export const metadata: Metadata = {
     "instalación aire acondicionado Pamplona",
     "cambio de caldera Pamplona",
     "calderas Sime Navarra",
-    "calderas Kosner",
     "suelo radiante Pamplona",
     "akiMAT",
   ],
@@ -125,7 +125,10 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <Nav />
+        {children}
+      </body>
     </html>
   )
 }

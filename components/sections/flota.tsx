@@ -17,7 +17,7 @@ const points = [
 export function Flota() {
   return (
     <section id="nosotros" className="overflow-hidden bg-white py-16 md:py-24">
-      <div className="container-x grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
+      <div className="container-x grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
         <Reveal>
           {/* Borde eléctrico (React Bits · ElectricBorder) */}
           <ElectricBorder
@@ -54,19 +54,29 @@ export function Flota() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          {/* Foto con inclinación al pasar el ratón (React Bits · TiltedCard) */}
-          <TiltedCard
-            imageSrc={optimizedSrc(photos.furgonetaDetalle, 600)}
-            altText={photos.furgonetaDetalle.alt}
-            containerHeight="clamp(240px, 42vw, 560px)"
-            containerWidth="100%"
-            imageHeight="100%"
-            imageWidth="100%"
-            rotateAmplitude={7}
-            scaleOnHover={1.03}
-            showMobileWarning={false}
-            showTooltip={false}
-          />
+          {/* La foto entera, en su proporción, con inclinación al pasar el
+              ratón (React Bits · TiltedCard) */}
+          <div
+            className="relative w-full"
+            style={{
+              aspectRatio: `${photos.flota.width} / ${photos.flota.height}`,
+            }}
+          >
+            <div className="absolute inset-0">
+              <TiltedCard
+                imageSrc={optimizedSrc(photos.flota, 600)}
+                altText={photos.flota.alt}
+                containerHeight="100%"
+                containerWidth="100%"
+                imageHeight="100%"
+                imageWidth="100%"
+                rotateAmplitude={7}
+                scaleOnHover={1.03}
+                showMobileWarning={false}
+                showTooltip={false}
+              />
+            </div>
+          </div>
         </Reveal>
       </div>
     </section>
