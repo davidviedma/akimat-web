@@ -7,9 +7,11 @@ import {
   Mail01Icon,
 } from "@hugeicons/core-free-icons"
 import { Reveal } from "@/components/reveal"
-import { business, fullAddress, serviceArea } from "@/lib/site"
+import { business, fullAddress, maps, serviceArea } from "@/lib/site"
 
 export function Contacto() {
+  const [emailUser, emailDomain] = business.email.split("@")
+
   return (
     <section id="contacto" className="bg-white py-16 md:py-24">
       <div className="container-x">
@@ -19,7 +21,7 @@ export function Contacto() {
               Dónde estamos
             </p>
             <h2 className="font-heading text-4xl leading-tight font-bold tracking-tight text-ink md:text-5xl">
-              En Mutilva, a un paso de Pamplona.
+              En {business.address.area}, a un paso de Pamplona.
             </h2>
             <p className="max-w-md text-ink-soft">
               Trabajamos en {serviceArea.summary}. Si estás en otra zona de
@@ -40,7 +42,7 @@ export function Contacto() {
                 </dt>
                 <dd className="text-[15px] leading-snug text-ink">
                   <a
-                    href={business.mapsUrl}
+                    href={maps.place}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-brand-text"
@@ -91,12 +93,13 @@ export function Contacto() {
                 <dt className="text-xs font-semibold tracking-wider text-ink-soft uppercase">
                   Email
                 </dt>
-                <dd className="text-[15px] break-all text-ink">
+                <dd className="text-[15px] break-words text-ink">
                   <a
                     href={`mailto:${business.email}`}
                     className="hover:text-brand-text"
                   >
-                    {business.email}
+                    {emailUser}@<wbr />
+                    {emailDomain}
                   </a>
                 </dd>
               </div>

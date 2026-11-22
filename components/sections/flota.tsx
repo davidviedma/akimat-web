@@ -5,7 +5,8 @@ import { FlashIcon, Leaf01Icon, VanIcon } from "@hugeicons/core-free-icons"
 import ElectricBorder from "@/components/reactbits/ElectricBorder"
 import TiltedCard from "@/components/reactbits/TiltedCard"
 import { Reveal } from "@/components/reveal"
-import { business } from "@/lib/site"
+import { optimizedSrc } from "@/lib/images"
+import { business, photos } from "@/lib/site"
 
 const points = [
   { icon: FlashIcon, text: "Furgonetas 100 % eléctricas" },
@@ -55,8 +56,8 @@ export function Flota() {
         <Reveal delay={0.1}>
           {/* Foto con inclinación al pasar el ratón (React Bits · TiltedCard) */}
           <TiltedCard
-            imageSrc="/fotos/furgoneta-electrica.jpg"
-            altText="Furgoneta eléctrica roja de akiMAT"
+            imageSrc={optimizedSrc(photos.furgonetaDetalle, 600)}
+            altText={photos.furgonetaDetalle.alt}
             containerHeight="clamp(240px, 42vw, 560px)"
             containerWidth="100%"
             imageHeight="100%"

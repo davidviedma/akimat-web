@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Logo } from "@/components/logo"
-import { business, fullAddress, serviceArea, services } from "@/lib/site"
+import { MapEmbed } from "@/components/map-embed"
+import { business, fullAddress, maps, serviceArea, services } from "@/lib/site"
 
 const legalLinks = [
   { label: "Aviso legal", href: "/aviso-legal" },
@@ -71,7 +72,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href={business.mapsUrl}
+                  href={maps.place}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="leading-snug hover:text-white"
@@ -83,7 +84,9 @@ export function Footer() {
           </div>
         </div>
 
-        <p className="mt-12 text-xs leading-relaxed text-white/40">
+        <MapEmbed />
+
+        <p className="mt-8 text-xs leading-relaxed text-white/40">
           Trabajamos en {serviceArea.towns.join(", ")} y resto de Navarra.
         </p>
 
@@ -92,7 +95,8 @@ export function Footer() {
             © {new Date().getFullYear()} {business.legalName} · CIF{" "}
             {business.cif}
           </p>
-          <div className="flex flex-wrap gap-x-5 gap-y-2">
+          {/* El margen derecho deja sitio al botón flotante de WhatsApp */}
+          <div className="flex flex-wrap gap-x-5 gap-y-2 sm:pr-16 2xl:pr-0">
             {legalLinks.map(({ label, href }) => (
               <Link
                 key={href}

@@ -1,6 +1,6 @@
 # akiMAT · Web
 
-Web de **akiMAT Servicios Integrales** (Mutilva, Navarra): fontanería,
+Web de **akiMAT Servicios Integrales** (Mutilva Baja, Navarra): fontanería,
 instalación de calderas, aerotermia y aire acondicionado. Desde 2006.
 
 Diseño minimalista y visual: tema claro, fotos grandes de sus trabajos y de su
@@ -24,40 +24,68 @@ pnpm format
 | Ruta | Contenido |
 | --- | --- |
 | `/` | Cabecera con foto, marquesina curva, 4 servicios, comparador de calderas, aerotermia, flota eléctrica, galería de trabajos, marcas, presupuesto por WhatsApp y contacto |
-| `/fontaneria` | Fontanería |
+| `/fontaneria` | Fontanería, con sus trabajos |
 | `/calderas-de-gas` | Instalación de calderas (con el comparador Sime) |
 | `/aerotermia` | Aerotermia |
 | `/aire-acondicionado` | Aire acondicionado, con calculadora de frigorías |
 | `/aviso-legal`, `/politica-de-privacidad`, `/politica-de-cookies` | Textos legales |
 
+Todas las páginas terminan con el pie, que lleva el mapa de Google de la nave.
 También genera `sitemap.xml`, `robots.txt`, favicon, icono de Apple e imagen
 para redes sociales (`public/og-image.jpg`).
 
 ## Dónde se cambian los datos
 
-Todo lo que es de la empresa (teléfonos, WhatsApp, email, dirección, horario,
-CIF, servicios, marcas, fotos de la galería…) está en **`lib/site.ts`**.
+Todo lo que es de la empresa (teléfonos, WhatsApp, email, dirección, mapa,
+horario, CIF, servicios, marcas, fotos…) está en **`lib/site.ts`**.
 Cambiándolo ahí se actualiza toda la web, incluidos los datos estructurados para
 Google y los textos legales.
 
 ## Fotos
 
-Las fotos del cliente están en `public/fotos/` (redimensionadas a un máximo de
-2000 px). Para añadir una:
+Las fotos del cliente están en `public/fotos/`, ya recortadas y sin metadatos
+(EXIF/GPS). Las de trabajos son **verticales, en 4:5**, para que encajen igual
+en las tarjetas, las tiras y la galería. Para añadir una:
 
-1. Guárdala en `public/fotos/` con un nombre descriptivo.
-2. Añádela a `works` en `lib/site.ts` (galería) o cámbiala en `services[].photo`
-   (tarjeta del servicio) o en el `ServiceHero` de su página.
+1. Recórtala a 4:5 (unos 1000 × 1250 px) y guárdala en `public/fotos/` con un
+   nombre descriptivo. Antes de publicarla, mira que no se lea ningún dato de un
+   cliente (direcciones, nombres, matrículas).
+2. Dala de alta en `photos` (`lib/site.ts`) con su texto alternativo y su
+   tamaño. `position` indica qué parte debe verse cuando se recorta.
+3. Úsala donde toque:
+   - `works`: sale en la galería de la portada y en la página de su servicio
+     (con su pie de foto).
+   - `services[].photo` (tarjeta de la portada) y `services[].hero` (cabecera
+     de la página del servicio; esta puede ser horizontal).
+   - `boilers[].photo` en `components/sections/calderas.tsx`: la instalación
+     real que acompaña al render en el comparador.
 
-**Pendientes de recibir / sustituir** (ahora hay fotos provisionales):
+Las fotos que ahora no se usan (furgonetas en Canfranc, nave vacía, uniforme)
+están en `fotos-sin-usar/`, fuera de `public/`, para que no se publiquen.
 
-- Flota: las tres furgonetas en el garaje (para la cabecera).
+**Pendientes de recibir:**
+
+- Flota: las tres furgonetas eléctricas en el garaje (sección "Nos movemos en
+  eléctrico"; ahora hay un detalle de la furgoneta de la cabecera).
+- Unidad Kosner en la cubierta, de cerca (tarjeta y página de aerotermia; ahora
+  está la foto de los conductos en la cubierta).
 - Nave con el rótulo "Desde 2006" (sección "Dónde estamos").
-- Unidad Kosner de aerotermia en la cubierta (tarjeta y página de aerotermia).
 - Sala de calderas con los depósitos Greenheiss y suelo radiante (calderas).
 - Baño con lavabo y vestuario (fontanería / galería).
-- Un equipo de aire acondicionado instalado (ahora hay una ilustración).
 - Fotos del equipo (sección "Nosotros").
+
+## Mapa de Google
+
+El mapa del pie (`components/map-embed.tsx`) busca la dirección de la nave, no
+el nombre de la empresa, y **solo se carga cuando el visitante pulsa "Ver
+mapa"**. Hasta entonces la web no conecta con Google, así que sigue sin cookies
+de terceros y sin banner. Los enlaces y el modo de carga están en `maps`
+(`lib/site.ts`):
+
+- `maps.embed`: si el marcador no cae en la nave 22, sustitúyelo por el enlace
+  de "Compartir → Insertar un mapa" de Google Maps.
+- `maps.autoload: true` deja el mapa siempre visible. En ese caso hay que
+  añadir un banner de consentimiento y reescribir `/politica-de-cookies`.
 
 ## Componentes de React Bits
 
@@ -71,7 +99,7 @@ Copiados de la versión TypeScript + Tailwind en `components/reactbits/`:
 | `GlareHover` | Brillo al pasar por las tarjetas de servicios |
 | `ElectricBorder` | Borde eléctrico de "Nos movemos en eléctrico" |
 | `TiltedCard` | Foto de la furgoneta que se inclina con el ratón |
-| `CircularGallery` | Galería curva de trabajos |
+| `CircularGallery` | Galería curva de trabajos (se descarga al acercarse a ella) |
 | `LogoLoop` | Marcas que instalan (Sime, Kosner, Greenheiss) |
 | `Stepper` | Asistente "Presupuesto" que prepara el mensaje de WhatsApp |
 | `CountUp` | Resultado animado de la calculadora de frigorías |
@@ -84,11 +112,13 @@ Commons Clause (ver `components/reactbits/LICENSE.md`).
 
 - [ ] Confirmar teléfonos, email y que el móvil tiene WhatsApp.
 - [ ] Dominio definitivo (`SITE_URL`, ahora `https://www.akimat.es`).
-- [ ] Dirección fiscal para el aviso legal (si no coincide con la nave de Mutilva)
-      y datos de inscripción en el Registro Mercantil.
+- [ ] Comprobar que el marcador del mapa cae en la nave 22 (ver "Mapa de Google").
+- [ ] Dirección fiscal para el aviso legal (si no coincide con la nave de Mutilva
+      Baja) y datos de inscripción en el Registro Mercantil.
 - [ ] Logo oficial de Kosner (ahora va en texto) y permiso para usar las
       imágenes de producto de Sime (`public/calderas/`).
-- [ ] Confirmar las marcas (Sime, Kosner, Greenheiss) y los modelos del comparador.
-- [ ] Sustituir las fotos provisionales (ver arriba).
-- [ ] Si se añade analítica, poner un banner de cookies y actualizar
-      `/politica-de-cookies`: ahora la web no usa cookies.
+- [ ] Confirmar las marcas (Sime, Kosner, Greenheiss) y los modelos del
+      comparador: las calderas de las fotos son una Praktica EV HE y una Murelle.
+- [ ] Recibir las fotos pendientes (ver arriba).
+- [ ] Si se añade analítica o el mapa pasa a cargarse solo, poner un banner de
+      cookies y actualizar `/politica-de-cookies`.

@@ -43,10 +43,11 @@ export function Servicios() {
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    style={{ objectPosition: service.photo.position }}
                   />
                   <div
                     aria-hidden="true"
-                    className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/20 to-transparent"
+                    className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/35 via-45% to-transparent"
                   />
                   <span className="absolute top-4 right-4 flex size-10 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur transition-colors group-hover:bg-brand-primary">
                     <HugeiconsIcon icon={ArrowUpRight01Icon} size={18} />

@@ -90,7 +90,8 @@ export default function PoliticaDePrivacidadPage() {
         <p>
           No cedemos tus datos a terceros salvo obligación legal. Si nos
           escribes por WhatsApp, la comunicación se realiza a través de ese
-          servicio, que tiene su propia política de privacidad.
+          servicio, que tiene su propia política de privacidad. Lo mismo ocurre
+          con Google Maps si abres el mapa del pie de página.
         </p>
       </LegalSection>
 

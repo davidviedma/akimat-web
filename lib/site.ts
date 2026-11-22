@@ -9,7 +9,8 @@ import {
 
 /**
  * Datos de la empresa. Es la única fuente de verdad para teléfonos,
- * dirección, horario, servicios, etc.: cambia aquí y se actualiza toda la web.
+ * dirección, horario, servicios, fotos, etc.: cambia aquí y se actualiza toda
+ * la web.
  *
  * Los datos salen del rótulo de la nave, de la rotulación de las furgonetas
  * y de directorios públicos. Antes de publicar, confírmalos con akiMAT,
@@ -33,13 +34,13 @@ export const business = {
   whatsapp: "34629333811",
   email: "akimatserviciosintegrales@gmail.com",
   address: {
-    street: "Polígono Industrial Mutilva, calle O, nave 22",
+    street: "Polígono Industrial de Mutilva Baja, calle O, nave 22",
     postalCode: "31192",
     city: "Mutilva",
     region: "Navarra",
+    /** Cómo se conoce la zona; se usa en los titulares. */
+    area: "Mutilva Baja",
   },
-  mapsUrl:
-    "https://www.google.com/maps/search/?api=1&query=Akimat+Servicios+Integrales+Pol%C3%ADgono+Mutilva+calle+O+22+31192+Mutilva",
   hours: [
     { days: "Lunes a jueves", time: "8:00 – 18:30" },
     { days: "Viernes", time: "8:00 – 14:00" },
@@ -64,6 +65,32 @@ export const business = {
 } as const
 
 export const fullAddress = `${business.address.street}, ${business.address.postalCode} ${business.address.city} (${business.address.region})`
+
+/**
+ * Google Maps. Se busca por la dirección (no por el nombre de la empresa) para
+ * que el marcador caiga en la nave aunque la ficha de Google siga con la
+ * dirección antigua.
+ * TODO: comprobar el marcador; si no cae en la nave 22, sustituir `embed` por
+ * el enlace de "Compartir → Insertar un mapa" de Google Maps.
+ */
+const mapsQuery = encodeURIComponent(
+  "Polígono Industrial Mutilva Baja, Calle O, 22, 31192 Mutilva, Navarra"
+)
+
+export const maps = {
+  /** Abre la nave en Google Maps. */
+  place: `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`,
+  /** Ruta hasta la nave desde donde esté el visitante. */
+  directions: `https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`,
+  /** Mapa incrustado del pie de página. */
+  embed: `https://www.google.com/maps?q=${mapsQuery}&z=16&hl=es&output=embed`,
+  /**
+   * `false`: el mapa se carga cuando el visitante pulsa "Ver mapa", así la web
+   * no conecta con Google (ni deja sus cookies) sin que él lo pida.
+   * `true`: el mapa se ve siempre. En ese caso hace falta un banner de cookies.
+   */
+  autoload: false,
+}
 
 export function whatsappLink(message?: string) {
   const base = `https://wa.me/${business.whatsapp}`
@@ -91,14 +118,131 @@ export const serviceArea = {
   ],
 }
 
+/* ── Fotos ── */
+
+export type Photo = {
+  src: string
+  alt: string
+  width: number
+  height: number
+  /**
+   * Punto de interés cuando la foto se recorta (CSS `object-position`).
+   * Si no se indica, se centra.
+   */
+  position?: string
+}
+
+/**
+ * Fotos del cliente (`public/fotos/`). Las de trabajos son verticales (4:5)
+ * para que encajen igual en las tarjetas, las tiras y la galería.
+ */
+export const photos = {
+  furgonetaDetalle: {
+    src: "/fotos/furgoneta-detalle.jpg",
+    alt: "Rotulación de la furgoneta eléctrica de akiMAT: fontanería, calefacción, gas, climatización y cambio de caldera",
+    width: 1100,
+    height: 820,
+  },
+  bano: {
+    src: "/fotos/bano-inodoro.jpg",
+    alt: "Baño reformado por akiMAT con inodoro suspendido y azulejo de hojas tropicales",
+    width: 1500,
+    height: 2000,
+    position: "50% 72%",
+  },
+  praktica: {
+    src: "/fotos/caldera-praktica.jpg",
+    alt: "Caldera de condensación Sime Praktica instalada por akiMAT, con las tuberías aisladas",
+    width: 936,
+    height: 1170,
+    position: "50% 42%",
+  },
+  prakticaMueble: {
+    src: "/fotos/caldera-praktica-mueble.jpg",
+    alt: "Caldera Sime Praktica instalada por akiMAT dentro de un mueble de cocina",
+    width: 1000,
+    height: 1250,
+    position: "50% 55%",
+  },
+  murelle: {
+    src: "/fotos/caldera-murelle.jpg",
+    alt: "Caldera de condensación Sime Murelle instalada por akiMAT",
+    width: 960,
+    height: 1200,
+    position: "50% 45%",
+  },
+  split: {
+    src: "/fotos/aire-split-kosner.jpg",
+    alt: "Split de aire acondicionado Kosner instalado por akiMAT",
+    width: 640,
+    height: 800,
+    position: "50% 45%",
+  },
+  splitLucernario: {
+    src: "/fotos/aire-splits-kosner.jpg",
+    alt: "Split de aire acondicionado Kosner instalado junto a un lucernario",
+    width: 1120,
+    height: 840,
+    position: "100% 50%",
+  },
+  cubierta: {
+    src: "/fotos/cubierta-conductos-vertical.jpg",
+    alt: "Montaje de conductos aislados y unidad exterior en la cubierta de una nave",
+    width: 960,
+    height: 1200,
+    position: "50% 30%",
+  },
+  cubiertaAncha: {
+    src: "/fotos/cubierta-conductos.jpg",
+    alt: "Conductos aislados y unidad exterior instalados por akiMAT en la cubierta de una nave",
+    width: 1280,
+    height: 960,
+    position: "70% 50%",
+  },
+  termo: {
+    src: "/fotos/termo-greenheiss.jpg",
+    alt: "Termo eléctrico Greenheiss instalado por akiMAT",
+    width: 1200,
+    height: 1500,
+    position: "50% 25%",
+  },
+  contadores: {
+    src: "/fotos/bateria-contadores.jpg",
+    alt: "Batería de contadores de agua de una comunidad montada por akiMAT",
+    width: 1100,
+    height: 1375,
+  },
+  grupoPresion: {
+    src: "/fotos/grupo-presion.jpg",
+    alt: "Grupo de presión con dos depósitos de expansión instalado por akiMAT",
+    width: 1048,
+    height: 1310,
+  },
+  aspersores: {
+    src: "/fotos/aspersores.jpg",
+    alt: "Línea de aspersores montada por akiMAT junto a una cubierta",
+    width: 1160,
+    height: 1450,
+    position: "50% 60%",
+  },
+} satisfies Record<string, Photo>
+
+/* ── Servicios ── */
+
+export type ServiceSlug =
+  "fontaneria" | "calderas-de-gas" | "aerotermia" | "aire-acondicionado"
+
 export type Service = {
-  slug: string
+  slug: ServiceSlug
   name: string
   short: string
   /** Una frase. La web es minimalista: aquí no van párrafos. */
   summary: string
   icon: IconSvgElement
-  photo: { src: string; alt: string }
+  /** Foto vertical de la tarjeta de la portada. */
+  photo: Photo
+  /** Foto de la cabecera de su página. */
+  hero: Photo
 }
 
 export const services: Service[] = [
@@ -108,10 +252,8 @@ export const services: Service[] = [
     short: "Fontanería",
     summary: "Reformas de baño, averías e instalaciones de agua.",
     icon: DropletIcon,
-    photo: {
-      src: "/fotos/bano-inodoro.jpg",
-      alt: "Baño reformado por akiMAT con inodoro suspendido y azulejo tropical",
-    },
+    photo: photos.bano,
+    hero: photos.bano,
   },
   {
     slug: "calderas-de-gas",
@@ -119,11 +261,8 @@ export const services: Service[] = [
     short: "Calderas",
     summary: "Cambio e instalación de calderas, radiadores y suelo radiante.",
     icon: FireIcon,
-    photo: {
-      // TODO: sustituir por la foto de la sala de calderas o del suelo radiante.
-      src: "/fotos/nave-industrial.jpg",
-      alt: "Instalación de calefacción en una nave industrial",
-    },
+    photo: photos.praktica,
+    hero: photos.praktica,
   },
   {
     slug: "aerotermia",
@@ -131,11 +270,9 @@ export const services: Service[] = [
     short: "Aerotermia",
     summary: "Calefacción, frío y agua caliente con una bomba de calor.",
     icon: Leaf01Icon,
-    photo: {
-      // TODO: sustituir por la foto de la unidad Kosner en la cubierta.
-      src: "/fotos/flota-canfranc.jpg",
-      alt: "Instalación de aerotermia",
-    },
+    // TODO: cambiar por el primer plano de la unidad Kosner cuando llegue.
+    photo: photos.cubierta,
+    hero: photos.cubiertaAncha,
   },
   {
     slug: "aire-acondicionado",
@@ -143,13 +280,16 @@ export const services: Service[] = [
     short: "Aire",
     summary: "Split, multisplit y conductos para casas y negocios.",
     icon: AirVentIcon,
-    photo: {
-      // TODO: sustituir por una foto de un equipo de aire instalado.
-      src: "/fotos/furgoneta-electrica.jpg",
-      alt: "Instalación de aire acondicionado",
-    },
+    photo: photos.split,
+    hero: photos.splitLucernario,
   },
 ]
+
+export function getService(slug: ServiceSlug): Service {
+  const service = services.find((item) => item.slug === slug)
+  if (!service) throw new Error(`Servicio desconocido: ${slug}`)
+  return service
+}
 
 export type Brand = { name: string; logo?: string; width?: number }
 
@@ -160,35 +300,70 @@ export const brands: Brand[] = [
   { name: "Greenheiss", logo: "/marcas/greenheiss.webp", width: 150 },
 ]
 
-export type Photo = { src: string; alt: string; width: number; height: number }
+/* ── Trabajos ── */
 
-/** Fotos de trabajos para la galería. Añade aquí las nuevas. */
-export const works: Photo[] = [
+export type Work = Photo & {
+  /** Pie de foto: qué es, en pocas palabras. */
+  caption: string
+  service: ServiceSlug
+}
+
+/**
+ * Trabajos de la galería de la portada, en el orden en que se ven. Cada uno
+ * sale también en la página de su servicio. Añade aquí los nuevos.
+ */
+export const works: Work[] = [
   {
-    src: "/fotos/bano-inodoro.jpg",
-    alt: "Baño con inodoro suspendido y azulejo de hojas tropicales",
-    width: 1500,
-    height: 2000,
+    ...photos.prakticaMueble,
+    caption: "Caldera en un mueble de cocina",
+    service: "calderas-de-gas",
   },
   {
-    src: "/fotos/furgoneta-electrica.jpg",
-    alt: "Furgoneta eléctrica de akiMAT",
-    width: 2000,
-    height: 1506,
+    ...photos.contadores,
+    caption: "Batería de contadores",
+    service: "fontaneria",
   },
   {
-    src: "/fotos/nave-industrial.jpg",
-    alt: "Nave industrial preparada para instalar calefacción",
-    width: 1800,
-    height: 1350,
+    ...photos.split,
+    caption: "Split Kosner",
+    service: "aire-acondicionado",
+  },
+  { ...photos.bano, caption: "Reforma de baño", service: "fontaneria" },
+  {
+    ...photos.cubierta,
+    caption: "Conductos y unidad exterior en cubierta",
+    service: "aerotermia",
   },
   {
-    src: "/fotos/flota-canfranc.jpg",
-    alt: "Furgonetas de akiMAT en un trabajo fuera de Pamplona",
-    width: 1600,
-    height: 1200,
+    ...photos.termo,
+    caption: "Termo eléctrico Greenheiss",
+    service: "fontaneria",
+  },
+  {
+    ...photos.murelle,
+    caption: "Caldera Sime Murelle",
+    service: "calderas-de-gas",
+  },
+  {
+    ...photos.grupoPresion,
+    caption: "Grupo de presión",
+    service: "fontaneria",
+  },
+  {
+    ...photos.praktica,
+    caption: "Caldera Sime Praktica",
+    service: "calderas-de-gas",
+  },
+  {
+    ...photos.aspersores,
+    caption: "Línea de aspersores",
+    service: "fontaneria",
   },
 ]
+
+export function worksOf(slug: ServiceSlug) {
+  return works.filter((work) => work.service === slug)
+}
 
 export function serviceMetadata({
   slug,

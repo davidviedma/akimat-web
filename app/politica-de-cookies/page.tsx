@@ -41,14 +41,36 @@ export default function PoliticaDeCookiesPage() {
       <LegalSection title="Cookies que usa esta web">
         <p>
           Esta web <strong>no utiliza cookies propias ni de terceros</strong>{" "}
-          con fines analíticos, publicitarios o de seguimiento, y no incluye
-          contenidos incrustados de terceros (como mapas o vídeos) que las
-          instalen. Por eso no te mostramos ningún aviso para aceptarlas.
+          con fines analíticos, publicitarios o de seguimiento. Por eso no te
+          mostramos ningún aviso para aceptarlas.
         </p>
         <p>
           Si en el futuro incorporamos herramientas que usen cookies no
           técnicas, actualizaremos esta política y te pediremos tu
           consentimiento antes de activarlas.
+        </p>
+      </LegalSection>
+
+      {/* Vale mientras `maps.autoload` sea false en lib/site.ts. Si el mapa
+          pasa a cargarse solo, hay que reescribir este apartado y añadir un
+          banner de consentimiento. */}
+      <LegalSection title="Mapa de Google">
+        <p>
+          En el pie de la web hay un mapa de Google Maps con nuestra ubicación.{" "}
+          <strong>Solo se carga si pulsas «Ver mapa»</strong>: hasta ese momento
+          tu navegador no se conecta con Google.
+        </p>
+        <p>
+          Al cargarlo, Google puede instalar sus propias cookies y recibir datos
+          como tu dirección IP, según su{" "}
+          <a
+            href="https://policies.google.com/privacy?hl=es"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            política de privacidad
+          </a>
+          .
         </p>
       </LegalSection>
 

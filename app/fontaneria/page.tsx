@@ -21,11 +21,12 @@ import {
 import { Nav } from "@/components/nav"
 import { Footer } from "@/components/sections/footer"
 import { WhatsAppButton } from "@/components/whatsapp-button"
-import { serviceMetadata, whatsappLink, works } from "@/lib/site"
+import { getService, serviceMetadata, whatsappLink, worksOf } from "@/lib/site"
 
 const slug = "fontaneria"
+const service = getService(slug)
 const description =
-  "Fontanero en Pamplona y comarca: averías y fugas, reformas de baño, instalaciones de agua, termos y grifería. Desde 2006 en Mutilva. Presupuesto sin compromiso."
+  "Fontanero en Pamplona y comarca: averías y fugas, reformas de baño, instalaciones de agua, termos y grifería. Desde 2006. Presupuesto sin compromiso."
 
 export const metadata = serviceMetadata({
   slug,
@@ -85,17 +86,13 @@ export default function FontaneriaPage() {
         description={description}
         faqs={faqs}
       />
-      <Nav />
+      <Nav onPhoto={false} />
       <main>
         <ServiceHero
           label="Fontanería"
           title="Fontanería en Pamplona y comarca."
           subtitle="Averías, reformas de baño e instalaciones de agua. Trabajo limpio y presupuesto claro."
-          photo={{
-            src: "/fotos/bano-inodoro.jpg",
-            alt: "Baño reformado por akiMAT",
-            position: "50% 45%",
-          }}
+          photo={service.hero}
           whatsapp={whatsapp}
           checks={[
             "Averías y fugas",
@@ -121,7 +118,9 @@ export default function FontaneriaPage() {
         <Section tone="soft">
           <SectionHeading label="Trabajos" title="Así quedan." />
           <PhotoStrip
-            photos={works.filter((photo) => photo.src.includes("bano"))}
+            photos={worksOf(slug).filter(
+              (work) => work.src !== service.hero.src
+            )}
           />
         </Section>
 

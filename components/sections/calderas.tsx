@@ -9,10 +9,24 @@ import {
   CheckmarkCircle02Icon,
 } from "@hugeicons/core-free-icons"
 import { Reveal } from "@/components/reveal"
+import { photos, type Photo } from "@/lib/site"
 import { cn } from "@/lib/utils"
 
+type Boiler = {
+  id: string
+  name: string
+  /** Render del fabricante */
+  image: string
+  tag: string
+  points: readonly string[]
+  /** Foto de una instalación de akiMAT, si la hay, y su pie */
+  photo?: Photo
+  photoCaption?: string
+}
+
 // Modelos que instalan. Los datos salen de las fichas de Sime; las imágenes son
-// renders del fabricante. TODO: añadir la caldera Kosner cuando haya imagen.
+// renders del fabricante y las fotos, instalaciones de akiMAT.
+// TODO: añadir la caldera Kosner cuando haya imagen.
 export const boilers = [
   {
     id: "praktica",
@@ -24,6 +38,8 @@ export const boilers = [
       "Condensación",
       "Intercambiador de acero inoxidable",
     ],
+    photo: photos.prakticaMueble,
+    photoCaption: "En un mueble de cocina",
   },
   {
     id: "murelle",
@@ -35,6 +51,8 @@ export const boilers = [
       "Wi-Fi opcional",
       "Para pisos con uno o dos baños",
     ],
+    photo: photos.murelle,
+    photoCaption: "Una Murelle instalada",
   },
   {
     id: "planet",
@@ -47,7 +65,7 @@ export const boilers = [
       "Para casas grandes o con varios baños",
     ],
   },
-] as const
+] as const satisfies readonly Boiler[]
 
 type BoilerId = (typeof boilers)[number]["id"]
 
@@ -59,7 +77,7 @@ const situations: { label: string; boiler: BoilerId }[] = [
 
 export function Calderas() {
   const [situation, setSituation] = useState(0)
-  const active =
+  const active: Boiler =
     boilers.find((b) => b.id === situations[situation].boiler) ?? boilers[0]
 
   return (
@@ -126,14 +144,39 @@ export function Calderas() {
             <span className="w-fit rounded-full bg-brand-primary/10 px-3 py-1 text-xs font-semibold tracking-wider text-brand-text uppercase">
               {active.tag}
             </span>
-            <div className="relative mx-auto h-64 w-full sm:h-80">
-              <Image
-                src={active.image}
-                alt={`Caldera de condensación ${active.name}`}
-                fill
-                sizes="(max-width: 1024px) 90vw, 40vw"
-                className="object-contain"
-              />
+            {/* Render del fabricante y, si la hay, una instalación real */}
+            <div
+              className={cn(
+                "grid gap-3 sm:gap-4",
+                active.photo && "grid-cols-2"
+              )}
+            >
+              <div className="relative h-64 sm:h-80">
+                <Image
+                  src={active.image}
+                  alt={`Caldera de condensación ${active.name}`}
+                  fill
+                  sizes="(max-width: 1024px) 45vw, 20vw"
+                  className="object-contain"
+                />
+              </div>
+              {active.photo && (
+                <figure className="relative h-64 overflow-hidden rounded-2xl bg-paper-2 sm:h-80">
+                  <Image
+                    src={active.photo.src}
+                    alt={active.photo.alt}
+                    fill
+                    sizes="(max-width: 1024px) 45vw, 20vw"
+                    className="object-cover"
+                    style={{ objectPosition: active.photo.position }}
+                  />
+                  {active.photoCaption && (
+                    <figcaption className="absolute top-2 left-2 max-w-[calc(100%-1rem)] rounded-xl bg-white/90 px-2.5 py-1 text-xs leading-tight font-semibold text-ink backdrop-blur">
+                      {active.photoCaption}
+                    </figcaption>
+                  )}
+                </figure>
+              )}
             </div>
             <div className="flex flex-col gap-3">
               <h3 className="font-heading text-2xl font-semibold text-ink">

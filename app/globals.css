@@ -93,20 +93,7 @@
     --sidebar-ring: #0099d6;
 }
 
-/* ── Ilustraciones animadas (aire, llama y gota) ── */
-
-@keyframes airflow {
-  0% { stroke-dashoffset: 0; opacity: 0; }
-  15% { opacity: 1; }
-  85% { opacity: 1; }
-  100% { stroke-dashoffset: -64; opacity: 0; }
-}
-
-@keyframes flame {
-  0%, 100% { transform: scale(1, 1); }
-  30% { transform: scale(0.96, 1.07); }
-  60% { transform: scale(1.04, 0.95); }
-}
+/* ── Animaciones SVG: gota del grifo (404) y onda del marcador del mapa ── */
 
 @keyframes drip {
   0% { transform: translateY(0) scale(0.4); opacity: 0; }
@@ -118,17 +105,6 @@
 @keyframes ripple {
   0% { transform: scale(0.2); opacity: 0.9; }
   100% { transform: scale(1.6); opacity: 0; }
-}
-
-.animate-airflow {
-  stroke-dasharray: 18 46;
-  animation: airflow 2.6s linear infinite;
-}
-
-.animate-flame {
-  transform-box: fill-box;
-  transform-origin: 50% 100%;
-  animation: flame 1.6s ease-in-out infinite;
 }
 
 .animate-drip {
@@ -144,8 +120,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-airflow,
-  .animate-flame,
   .animate-drip,
   .animate-ripple {
     animation: none;

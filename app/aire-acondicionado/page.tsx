@@ -6,7 +6,6 @@ import {
   ThermometerSunIcon,
 } from "@hugeicons/core-free-icons"
 import { FrigoriasCalculator } from "@/components/frigorias-calculator"
-import { AirConditionerArt } from "@/components/illustrations"
 import {
   Callout,
   FaqList,
@@ -22,9 +21,10 @@ import {
 import { Nav } from "@/components/nav"
 import { Footer } from "@/components/sections/footer"
 import { WhatsAppButton } from "@/components/whatsapp-button"
-import { serviceMetadata, whatsappLink } from "@/lib/site"
+import { getService, serviceMetadata, whatsappLink } from "@/lib/site"
 
 const slug = "aire-acondicionado"
+const service = getService(slug)
 const description =
   "Instalación de aire acondicionado en Pamplona y comarca: split, multisplit y conductos con bomba de calor. Mantenimiento y reparación. Presupuesto sin compromiso."
 
@@ -86,14 +86,13 @@ export default function AireAcondicionadoPage() {
         description={description}
         faqs={faqs}
       />
-      <Nav />
+      <Nav onPhoto={false} />
       <main>
         <ServiceHero
           label="Aire acondicionado"
           title="Aire acondicionado en Pamplona y comarca."
           subtitle="Te ayudamos a elegir el equipo, lo instalamos y lo mantenemos a punto."
-          // TODO: sustituir la ilustración por una foto de un equipo instalado.
-          art={<AirConditionerArt className="w-[70%] max-w-md md:w-full" />}
+          photo={service.hero}
           whatsapp={whatsapp}
           checks={["Split y multisplit", "Conductos", "Mantenimiento"]}
         />

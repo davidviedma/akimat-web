@@ -11,114 +11,112 @@ import BlurText from "@/components/reactbits/BlurText"
 import { Reveal } from "@/components/reveal"
 import { Button } from "@/components/ui/button"
 import { WhatsAppIcon } from "@/components/whatsapp-button"
-import { SITE_URL, business, services, type Photo } from "@/lib/site"
+import { SITE_URL, business, services, type Photo, type Work } from "@/lib/site"
 import { cn } from "@/lib/utils"
 
 export type Faq = { question: string; answer: string }
 export type Feature = { icon: IconSvgElement; title: string; text: string }
 
-/* ── Cabecera de página de servicio: foto a sangre y un titular ── */
+/* ── Cabecera de página de servicio: titular a un lado y foto al otro ── */
 
 export function ServiceHero({
   label,
   title,
   subtitle,
   photo,
-  art,
   whatsapp,
   checks,
 }: {
   label: string
   title: string
   subtitle: string
-  photo?: { src: string; alt: string; position?: string }
-  /** Ilustración para cuando todavía no hay foto */
-  art?: ReactNode
+  photo: Photo
   whatsapp: string
   checks: string[]
 }) {
-  return (
-    <section className="relative isolate flex min-h-[78svh] flex-col justify-end overflow-hidden bg-ink text-white">
-      {photo ? (
-        <Image
-          src={photo.src}
-          alt={photo.alt}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-          style={{ objectPosition: photo.position ?? "50% 50%" }}
-        />
-      ) : (
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-[radial-gradient(80%_70%_at_75%_40%,rgba(0,153,214,0.35),transparent_65%)]"
-        />
-      )}
-      {art && (
-        <div className="pointer-events-none absolute inset-x-0 top-24 flex justify-center md:top-1/2 md:right-[8%] md:left-auto md:w-[42%] md:-translate-y-1/2">
-          {art}
-        </div>
-      )}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/40 to-ink/15"
-      />
+  const portrait = photo.height > photo.width
 
-      <div className="relative z-10 container-x flex flex-col gap-6 pt-44 pb-12 md:pb-16">
-        <nav
-          aria-label="Ruta de navegación"
-          className="flex items-center gap-2 text-sm text-white/70"
-        >
-          <Link href="/" className="transition-colors hover:text-white">
-            Inicio
-          </Link>
-          <span aria-hidden>/</span>
-          <span className="text-white">{label}</span>
-        </nav>
-        <BlurText
-          as="h1"
-          text={title}
-          animateBy="words"
-          direction="bottom"
-          delay={70}
-          className="max-w-4xl font-heading text-4xl leading-[1.05] font-bold tracking-tight sm:text-5xl lg:text-6xl"
-        />
-        <p className="max-w-xl text-lg text-white/80">{subtitle}</p>
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-6">
-          <Button asChild variant="light" size="xl">
-            <a href={whatsapp} target="_blank" rel="noopener noreferrer">
-              <WhatsAppIcon className="size-5" />
-              Pedir presupuesto
-            </a>
-          </Button>
-          <a
-            href={business.phone.href}
-            className="inline-flex items-center gap-2 text-lg font-semibold tabular-nums transition-opacity hover:opacity-80"
+  return (
+    <section className="bg-paper-2 pt-28 pb-14 md:pt-36 md:pb-20">
+      <div className="container-x grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+        <div className="flex flex-col gap-6">
+          <nav
+            aria-label="Ruta de navegación"
+            className="flex items-center gap-2 text-sm text-ink-soft"
           >
-            <HugeiconsIcon
-              icon={Call02Icon}
-              size={19}
-              className="text-brand-primary"
-            />
-            {business.phone.display}
-          </a>
+            <Link href="/" className="transition-colors hover:text-ink">
+              Inicio
+            </Link>
+            <span aria-hidden>/</span>
+            <span className="text-ink">{label}</span>
+          </nav>
+          <BlurText
+            as="h1"
+            text={title}
+            animateBy="words"
+            direction="bottom"
+            delay={70}
+            className="font-heading text-4xl leading-[1.05] font-bold tracking-tight text-ink sm:text-5xl lg:text-6xl"
+          />
+          <p className="max-w-xl text-lg text-ink-soft">{subtitle}</p>
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-7">
+            <Button asChild size="xl">
+              <a href={whatsapp} target="_blank" rel="noopener noreferrer">
+                <WhatsAppIcon className="size-5" />
+                Pedir presupuesto
+              </a>
+            </Button>
+            <div className="flex flex-col gap-1.5">
+              {[business.phone, business.mobile].map((phone) => (
+                <a
+                  key={phone.href}
+                  href={phone.href}
+                  className="inline-flex items-center gap-2 text-lg font-semibold text-ink tabular-nums transition-colors hover:text-brand-text"
+                >
+                  <HugeiconsIcon
+                    icon={Call02Icon}
+                    size={19}
+                    className="text-brand-primary"
+                  />
+                  {phone.display}
+                </a>
+              ))}
+            </div>
+          </div>
+          <ul className="flex flex-wrap gap-x-6 gap-y-2">
+            {checks.map((check) => (
+              <li
+                key={check}
+                className="flex items-center gap-2 text-sm text-ink-soft"
+              >
+                <HugeiconsIcon
+                  icon={CheckmarkCircle02Icon}
+                  size={17}
+                  className="text-brand-primary"
+                />
+                {check}
+              </li>
+            ))}
+          </ul>
         </div>
-        <ul className="flex flex-wrap gap-x-6 gap-y-2">
-          {checks.map((check) => (
-            <li
-              key={check}
-              className="flex items-center gap-2 text-sm text-white/85"
-            >
-              <HugeiconsIcon
-                icon={CheckmarkCircle02Icon}
-                size={17}
-                className="text-brand-primary"
-              />
-              {check}
-            </li>
-          ))}
-        </ul>
+
+        {/* La foto manda: vertical u horizontal según venga */}
+        <div
+          className={cn(
+            "relative w-full overflow-hidden rounded-[2rem] bg-white",
+            portrait ? "mx-auto aspect-[4/5] max-w-md lg:mr-0" : "aspect-[4/3]"
+          )}
+        >
+          <Image
+            src={photo.src}
+            alt={photo.alt}
+            fill
+            preload
+            sizes="(max-width: 1024px) 100vw, 40vw"
+            className="object-cover"
+            style={{ objectPosition: photo.position }}
+          />
+        </div>
       </div>
     </section>
   )
@@ -207,37 +205,32 @@ export function FeatureGrid({
   )
 }
 
-/** Fotos de la página: una grande y el resto en una fila. */
-export function PhotoStrip({ photos }: { photos: Photo[] }) {
+/** Tira de trabajos: fotos verticales con su pie. */
+export function PhotoStrip({ photos }: { photos: Work[] }) {
   if (!photos.length) return null
-  // Con tres fotos o más, la primera ocupa dos filas; con menos, todas iguales.
-  const big = photos.length >= 3
   return (
-    <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
-      {photos.slice(0, 4).map((photo, i) => (
-        <Reveal
-          key={photo.src}
-          delay={i * 0.06}
-          className={cn(
-            "relative overflow-hidden rounded-3xl bg-paper-2",
-            i === 0 &&
-              big &&
-              "col-span-2 aspect-[4/3] md:row-span-2 md:aspect-auto",
-            i === 0 && !big && "col-span-2 aspect-[4/3]",
-            i > 0 && "aspect-square"
-          )}
-        >
-          <Image
-            src={photo.src}
-            alt={photo.alt}
-            fill
-            sizes={
-              i === 0
-                ? "(max-width: 768px) 100vw, 50vw"
-                : "(max-width: 768px) 50vw, 25vw"
-            }
-            className="object-cover transition-transform duration-700 hover:scale-105"
-          />
+    <div
+      className={cn(
+        "grid grid-cols-2 gap-3 md:gap-4",
+        photos.length === 3 && "md:grid-cols-3",
+        photos.length >= 4 && "lg:grid-cols-4"
+      )}
+    >
+      {photos.map((photo, i) => (
+        <Reveal key={photo.src} delay={i * 0.06}>
+          <figure className="group relative aspect-[4/5] overflow-hidden rounded-3xl bg-paper-2">
+            <Image
+              src={photo.src}
+              alt={photo.alt}
+              fill
+              sizes="(max-width: 1024px) 50vw, 25vw"
+              className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              style={{ objectPosition: photo.position }}
+            />
+            <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/85 to-transparent px-4 pt-12 pb-4 text-sm leading-snug font-semibold text-white">
+              {photo.caption}
+            </figcaption>
+          </figure>
         </Reveal>
       ))}
     </div>

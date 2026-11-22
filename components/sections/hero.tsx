@@ -8,7 +8,7 @@ import BlurText from "@/components/reactbits/BlurText"
 import GradualBlur from "@/components/reactbits/GradualBlur"
 import { Button } from "@/components/ui/button"
 import { WhatsAppIcon } from "@/components/whatsapp-button"
-import { business, whatsappLink } from "@/lib/site"
+import { business, serviceArea, whatsappLink } from "@/lib/site"
 
 export function Hero() {
   return (
@@ -17,7 +17,7 @@ export function Hero() {
         src={vanPhoto}
         alt="Furgoneta eléctrica de akiMAT rotulada con sus servicios"
         fill
-        priority
+        preload
         placeholder="blur"
         sizes="100vw"
         className="object-cover object-[62%_60%] md:object-[50%_58%]"
@@ -39,7 +39,11 @@ export function Hero() {
 
       <div className="relative z-10 container-x flex flex-col gap-8 pt-40 pb-12 md:pb-16">
         <p className="text-xs font-semibold tracking-widest text-white/75 uppercase sm:text-sm">
-          Desde {business.founded} · Mutilva · Pamplona y comarca
+          <span className="block sm:inline">
+            Desde {business.founded} · {business.address.area}
+          </span>
+          <span className="hidden sm:inline"> · </span>
+          <span className="block sm:inline">{serviceArea.summary}</span>
         </p>
         <BlurText
           as="h1"

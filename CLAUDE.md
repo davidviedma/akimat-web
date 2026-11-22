@@ -11,18 +11,19 @@ pnpm install
 pnpm dev          # http://localhost:3000 (Turbopack)
 pnpm build        # production build, every route is static
 pnpm lint         # ESLint (flat config)
-pnpm typecheck    # tsc --noEmit
+pnpm typecheck    # next typegen + tsc --noEmit
 pnpm format       # Prettier (+ Tailwind plugin)
 ```
 
 ## Project Overview
 
 **akiMAT** (Akimat Servicios Integrales, S.L., since 2006) is a plumbing,
-boiler, aerothermal and air-conditioning company in Mutilva (Navarra), serving
-Pamplona and its area. The site is a Spanish-language marketing site: a home
-page, one page per service and the legal pages. Design brief: minimalist,
-visual (large client photos), little text. Brand: cyan `#0099D6` and ink
-`#111016` from the logo; the vans are red (`brand-heat`, used sparingly).
+boiler, aerothermal and air-conditioning company in Mutilva Baja (Navarra),
+serving Pamplona and its area. The site is a Spanish-language marketing site:
+a home page, one page per service and the legal pages. Design brief:
+minimalist, visual (large client photos), little text. Brand: cyan `#0099D6`
+and ink `#111016` from the logo; the vans are red (`brand-heat`, used
+sparingly).
 
 ## Tech Stack
 
@@ -45,23 +46,31 @@ components/
   nav.tsx                    top bar (white over photos, ink after scroll)
   logo.tsx                   vectorised logo (aki + tagline use currentColor)
   reveal.tsx                 motion whileInView wrapper
-  illustrations.tsx          SVG art (AC unit, boiler, faucet) used as fallbacks
+  illustrations.tsx          SVG faucet for the 404 page
+  map-embed.tsx              footer Google map, loaded on click
   sections/                  home sections, one file each
   landing.tsx                building blocks for the service pages
   legal-page.tsx             layout for the legal pages
   frigorias-calculator.tsx   AC sizing calculator (uses CountUp)
   reactbits/                 components copied from reactbits.dev
 lib/
-  site.ts                    business data, services, brands, photos, helpers
+  site.ts                    business data, map links, photos, services, works
   utils.ts                   cn()
-public/fotos/                client photos (max 2000 px)
+public/fotos/                client photos, cropped and without metadata
 public/calderas/, public/marcas/   Sime product renders, brand logos
+fotos-sin-usar/              client photos not on the site (kept out of public/)
 ```
 
 ## Conventions
 
 - **Business data lives only in `lib/site.ts`** (phones, WhatsApp, email,
-  address, hours, CIF, services, brands, gallery photos). Never hardcode it.
+  address, map links, hours, CIF, services, brands, photos). Never hardcode it.
+- Photos: register each file once in `photos` (alt, size, optional `position`
+  for crops) and reference it from `services` (`photo` = home card, `hero` =
+  service page), `works` (gallery + service page, with a caption) or the boiler
+  chooser. Work photos are portrait 4:5. Strip metadata and check that no
+  customer data (addresses, names, plates) is legible before publishing one.
+- Above-the-fold images use `preload` (`priority` is deprecated in Next 16).
 - Copy is Spanish (Spain), short. Avoid unverifiable claims unless the client
   confirms them; "Desde 2006" and the electric fleet come from their own signage.
 - Section pattern: uppercase eyebrow in `text-brand-text`, `font-heading` title
@@ -75,5 +84,7 @@ public/calderas/, public/marcas/   Sime product renders, brand logos
   `no-explicit-any` are off for that folder only. Mark local changes with an
   `akiMAT:` comment and keep the license header. WebGL components must not call
   `loseContext()` on cleanup (breaks under React Strict Mode).
-- The site sets no cookies and embeds no third-party content. Adding analytics
+- The site sets no cookies and loads no third-party content on its own: the
+  footer Google map only loads after the visitor clicks "Ver mapa"
+  (`maps.autoload` in `lib/site.ts`). Adding analytics or auto-loading the map
   requires a consent banner and updating `/politica-de-cookies`.

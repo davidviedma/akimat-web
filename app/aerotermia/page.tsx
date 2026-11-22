@@ -21,9 +21,10 @@ import {
 import { Nav } from "@/components/nav"
 import { Footer } from "@/components/sections/footer"
 import { WhatsAppButton } from "@/components/whatsapp-button"
-import { serviceMetadata, whatsappLink } from "@/lib/site"
+import { getService, serviceMetadata, whatsappLink } from "@/lib/site"
 
 const slug = "aerotermia"
+const service = getService(slug)
 const description =
   "Instalación de aerotermia en Pamplona y comarca: bomba de calor Kosner para calefacción, refrigeración y agua caliente con un solo equipo. Presupuesto sin compromiso."
 
@@ -100,13 +101,13 @@ export default function AerotermiaPage() {
         description={description}
         faqs={faqs}
       />
-      <Nav />
+      <Nav onPhoto={false} />
       <main>
         <ServiceHero
           label="Aerotermia"
           title="Aerotermia: calor, frío y agua caliente."
           subtitle="Una bomba de calor Kosner para toda la casa. Menos consumo, cero gas."
-          // TODO: añadir la foto de la unidad Kosner en la cubierta.
+          photo={service.hero}
           whatsapp={whatsapp}
           checks={[
             "Kosner",

@@ -21,9 +21,10 @@ import { Nav } from "@/components/nav"
 import { Calderas } from "@/components/sections/calderas"
 import { Footer } from "@/components/sections/footer"
 import { WhatsAppButton } from "@/components/whatsapp-button"
-import { serviceMetadata, whatsappLink } from "@/lib/site"
+import { getService, serviceMetadata, whatsappLink } from "@/lib/site"
 
 const slug = "calderas-de-gas"
+const service = getService(slug)
 const description =
   "Instalación y cambio de calderas de condensación Sime y Kosner en Pamplona y comarca. Radiadores, suelo radiante, averías y revisiones. Presupuesto sin compromiso."
 
@@ -87,18 +88,13 @@ export default function CalderasPage() {
         description={description}
         faqs={faqs}
       />
-      <Nav />
+      <Nav onPhoto={false} />
       <main>
         <ServiceHero
           label="Calderas"
           title="Instalación de calderas Sime y Kosner."
           subtitle="Cambio de caldera, radiadores y suelo radiante. Calefacción y agua caliente sin preocupaciones."
-          photo={{
-            // TODO: sustituir por la foto de la sala de calderas (depósitos Greenheiss).
-            src: "/fotos/nave-industrial.jpg",
-            alt: "Instalación de calefacción",
-            position: "50% 60%",
-          }}
+          photo={service.hero}
           whatsapp={whatsapp}
           checks={["Condensación", "Sime y Kosner", "Suelo radiante"]}
         />
