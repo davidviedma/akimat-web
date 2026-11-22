@@ -19,8 +19,8 @@ export function Footer() {
               <Logo className="w-44" />
             </Link>
             <p className="max-w-xs text-sm leading-relaxed text-white/60">
-              Fontanería, calderas, aerotermia y aire acondicionado. Desde{" "}
-              {business.founded} en {serviceArea.summary}.
+              Fontanería, calderas, aerotermia y aire acondicionado. Más de{" "}
+              {business.experienceYears} años en {serviceArea.summary}.
             </p>
           </div>
 

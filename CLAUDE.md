@@ -82,6 +82,11 @@ fotos-sin-usar/              client photos not on the site (kept out of public/)
 - The boiler-change time is the client's own figure
   (`business.boilerSwapHours`, exported as `boilerSwap` = "4 horas de media").
   Always word it as an average, never as a guarantee.
+- "+20 años de experiencia" comes from `business.experienceYears`, a fixed
+  number (founded 2006), not a date calculation: raise it when they turn 25.
+- The map pin needs exact coordinates (`location.coords` in `lib/site.ts`):
+  Google geocodes the street address to the wrong street of the estate. While
+  they are `null` the pin is unreliable.
 - Reviews (`reviews` in `lib/site.ts`) are real Google reviews: keep the text
   verbatim (only fix spacing/stray punctuation), publish first name + surname
   initial only, and keep `googleReviews` (average and count) truthful.

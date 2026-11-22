@@ -27,6 +27,11 @@ export const business = {
   // TODO: completar con los datos de inscripción (tomo, folio y hoja).
   registry: "Inscrita en el Registro Mercantil de Navarra",
   founded: 2006,
+  /**
+   * Años de experiencia que se anuncian ("+20 años"). Es un número fijo y no
+   * un cálculo con la fecha: súbelo a 25 cuando los cumplan, en 2031.
+   */
+  experienceYears: 20,
   tagline: "Servicios integrales",
   /** Horas que tardan de media en cambiar una caldera (dato de akiMAT). */
   boilerSwapHours: 4,
@@ -69,15 +74,21 @@ export const business = {
 export const fullAddress = `${business.address.street}, ${business.address.postalCode} ${business.address.city} (${business.address.region})`
 
 /**
- * Google Maps. Se busca por la dirección (no por el nombre de la empresa) para
- * que el marcador caiga en la nave aunque la ficha de Google siga con la
- * dirección antigua.
- * TODO: comprobar el marcador; si no cae en la nave 22, sustituir `embed` por
- * el enlace de "Compartir → Insertar un mapa" de Google Maps.
+ * Punto exacto de la nave. Google no sitúa bien la dirección: la búsqueda cae
+ * en otra parte del polígono, así que el mapa necesita las coordenadas.
+ * TODO: pegar aquí las de Google Maps (clic derecho sobre la nave → clic en
+ * los números para copiarlos), por ejemplo `{ lat: 42.78, lng: -1.61 }`.
+ * Mientras sea `null`, el mapa busca por la dirección y el marcador NO es fiable.
  */
-const mapsQuery = encodeURIComponent(
-  "Polígono Industrial Mutilva Baja, Calle O, 22, 31192 Mutilva, Navarra"
-)
+export const location: { coords: { lat: number; lng: number } | null } = {
+  coords: null,
+}
+
+const mapsQuery = location.coords
+  ? `${location.coords.lat},${location.coords.lng}`
+  : encodeURIComponent(
+      "Polígono Industrial Mutilva Baja, Calle O, 22, 31192 Mutilva, Navarra"
+    )
 
 export const maps = {
   /** Abre la nave en Google Maps. */
@@ -85,7 +96,7 @@ export const maps = {
   /** Ruta hasta la nave desde donde esté el visitante. */
   directions: `https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`,
   /** Mapa incrustado del pie de página. */
-  embed: `https://www.google.com/maps?q=${mapsQuery}&z=16&hl=es&output=embed`,
+  embed: `https://www.google.com/maps?q=${mapsQuery}&z=17&hl=es&output=embed`,
   /**
    * `false`: el mapa se carga cuando el visitante pulsa "Ver mapa", así la web
    * no conecta con Google (ni deja sus cookies) sin que él lo pida.

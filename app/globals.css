@@ -12,7 +12,7 @@
     --color-ink: #111016;
     --color-ink-soft: #5b6570;
     --color-paper: #ffffff;
-    --color-paper-2: #f3f6f8;
+    --color-paper-2: #e9eef2;
     --color-line: #e5eaee;
 
     --font-heading: var(--font-display);
@@ -67,11 +67,11 @@
     --popover-foreground: #111016;
     --primary: #111016;
     --primary-foreground: #ffffff;
-    --secondary: #f3f6f8;
+    --secondary: #e9eef2;
     --secondary-foreground: #111016;
-    --muted: #f3f6f8;
+    --muted: #e9eef2;
     --muted-foreground: #5b6570;
-    --accent: #f3f6f8;
+    --accent: #e9eef2;
     --accent-foreground: #111016;
     --destructive: oklch(0.577 0.245 27.325);
     --border: #e5eaee;
@@ -87,7 +87,7 @@
     --sidebar-foreground: #111016;
     --sidebar-primary: #111016;
     --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #f3f6f8;
+    --sidebar-accent: #e9eef2;
     --sidebar-accent-foreground: #111016;
     --sidebar-border: #e5eaee;
     --sidebar-ring: #0099d6;

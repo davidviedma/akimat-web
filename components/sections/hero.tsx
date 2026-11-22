@@ -2,12 +2,12 @@
 
 import Image from "next/image"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { Call02Icon } from "@hugeicons/core-free-icons"
+import { Award01Icon, Call02Icon } from "@hugeicons/core-free-icons"
 import vanPhoto from "@/public/fotos/furgoneta-electrica.jpg"
 import BlurText from "@/components/reactbits/BlurText"
 import { Button } from "@/components/ui/button"
 import { WhatsAppIcon } from "@/components/whatsapp-button"
-import { business, serviceArea, whatsappLink } from "@/lib/site"
+import { business, whatsappLink } from "@/lib/site"
 
 export function Hero() {
   return (
@@ -28,12 +28,17 @@ export function Hero() {
       />
 
       <div className="relative z-10 container-x flex flex-col gap-8 pt-40 pb-12 md:pb-16">
-        <p className="text-xs font-semibold tracking-widest text-white/75 uppercase sm:text-sm">
-          <span className="block sm:inline">
-            Desde {business.founded} · {business.address.area}
+        {/* Lo primero que se lee: los años de oficio */}
+        <p className="inline-flex w-fit items-center gap-3 rounded-full border border-white/30 bg-white/15 py-2 pr-6 pl-2 text-base font-medium backdrop-blur-md sm:text-lg">
+          <span className="flex size-10 items-center justify-center rounded-full bg-brand-primary">
+            <HugeiconsIcon icon={Award01Icon} size={21} />
           </span>
-          <span className="hidden sm:inline"> · </span>
-          <span className="block sm:inline">{serviceArea.summary}</span>
+          <span>
+            <span className="font-heading text-xl font-bold sm:text-2xl">
+              +{business.experienceYears} años
+            </span>{" "}
+            de experiencia
+          </span>
         </p>
         <BlurText
           as="h1"

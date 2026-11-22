@@ -4,7 +4,7 @@ import type { Metadata, Viewport } from "next"
 import "./globals.css"
 import { Nav } from "@/components/nav"
 import { cn } from "@/lib/utils"
-import { SITE_URL, business, maps, services } from "@/lib/site"
+import { SITE_URL, business, location, maps, services } from "@/lib/site"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
 
@@ -16,7 +16,7 @@ const sora = Sora({
 
 const title =
   "akiMAT – Fontanería, calderas, aerotermia y aire acondicionado en Pamplona"
-const description = `Fontanería, instalación de calderas, aerotermia y aire acondicionado en Pamplona y comarca. Desde ${business.founded}, ahora en ${business.address.area}. Llama al ${business.phone.display} o al ${business.mobile.display}.`
+const description = `Fontanería, instalación de calderas, aerotermia y aire acondicionado en Pamplona y comarca. Más de ${business.experienceYears} años de experiencia. Llama al ${business.phone.display} o al ${business.mobile.display}.`
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -85,6 +85,13 @@ const localBusinessSchema = {
     { "@type": "City", name: "Mutilva" },
     { "@type": "AdministrativeArea", name: "Navarra" },
   ],
+  ...(location.coords && {
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: location.coords.lat,
+      longitude: location.coords.lng,
+    },
+  }),
   hasMap: maps.place,
   openingHoursSpecification: business.openingHoursSchema,
   hasOfferCatalog: {

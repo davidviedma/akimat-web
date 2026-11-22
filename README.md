@@ -102,8 +102,11 @@ mapa"**. Hasta entonces la web no conecta con Google, así que sigue sin cookies
 de terceros y sin banner. Los enlaces y el modo de carga están en `maps`
 (`lib/site.ts`):
 
-- `maps.embed`: si el marcador no cae en la nave 22, sustitúyelo por el enlace
-  de "Compartir → Insertar un mapa" de Google Maps.
+- `location.coords`: Google no sitúa bien la dirección (el marcador cae en otra
+  calle del polígono), así que el punto exacto se fija con las coordenadas de la
+  nave: clic derecho sobre ella en Google Maps y clic en los números para
+  copiarlos. Con ellas se generan el mapa, "Cómo llegar" y los datos para
+  Google. **Mientras estén vacías, el marcador no es fiable.**
 - `maps.autoload: true` deja el mapa siempre visible. En ese caso hay que
   añadir un banner de consentimiento y reescribir `/politica-de-cookies`.
 
@@ -131,7 +134,8 @@ Commons Clause (ver `components/reactbits/LICENSE.md`).
 
 - [ ] Confirmar teléfonos, email y que el móvil tiene WhatsApp.
 - [ ] Dominio definitivo (`SITE_URL`, ahora `https://www.akimat.es`).
-- [ ] Comprobar que el marcador del mapa cae en la nave 22 (ver "Mapa de Google").
+- [ ] Poner las coordenadas de la nave en `location.coords` (ver "Mapa de
+      Google"): sin ellas el marcador cae en otra calle.
 - [ ] Poner en `googleReviews.url` el enlace de "Compartir" de la ficha de
       Google y revisar la nota media antes de publicar.
 - [ ] Dirección fiscal para el aviso legal (si no coincide con la nave de Mutilva
