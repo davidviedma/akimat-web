@@ -73,14 +73,14 @@ function OptionGrid({
               "flex flex-col items-start gap-2 rounded-2xl border p-3.5 text-left transition-colors sm:p-4",
               "focus-visible:ring-3 focus-visible:ring-brand-primary/35 focus-visible:outline-none",
               selected
-                ? "border-ink bg-ink text-white"
-                : "border-line bg-white text-ink hover:border-ink/40"
+                ? "border-brand-text bg-brand-text text-white"
+                : "border-line bg-white text-ink hover:border-brand-text/50"
             )}
           >
             <HugeiconsIcon
               icon={option.icon}
               size={22}
-              className={selected ? "text-brand-primary" : "text-ink-soft"}
+              className={selected ? "text-white" : "text-ink-soft"}
             />
             <span className="flex flex-col">
               <span className="text-sm font-semibold sm:text-[15px]">
@@ -89,7 +89,7 @@ function OptionGrid({
               <span
                 className={cn(
                   "text-xs",
-                  selected ? "text-white/70" : "text-ink-soft"
+                  selected ? "text-white/90" : "text-ink-soft"
                 )}
               >
                 {option.hint}

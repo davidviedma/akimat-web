@@ -34,7 +34,7 @@ export const business = {
   experienceYears: 20,
   tagline: "Servicios integrales",
   /** Horas que tardan de media en cambiar una caldera (dato de akiMAT). */
-  boilerSwapHours: 4,
+  boilerSwapHours: 5,
   phone: { display: "948 186 801", href: "tel:+34948186801" },
   mobile: { display: "629 333 811", href: "tel:+34629333811" },
   // TODO: confirmar que el móvil tiene WhatsApp.
@@ -131,7 +131,7 @@ export const serviceArea = {
   ],
 }
 
-/** "4 horas de media": el tiempo de un cambio de caldera, listo para un texto. */
+/** "5 horas de media": el tiempo de un cambio de caldera, listo para un texto. */
 export const boilerSwap = `${business.boilerSwapHours} horas de media`
 
 /* ── Fotos ── */

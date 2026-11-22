@@ -11,8 +11,13 @@ const Aurora = dynamic(() => import("@/components/reactbits/Aurora"), {
   ssr: false,
 })
 
+// Calor a un lado y frío al otro, con el centro oscuro. Los dos tonos oscuros
+// del medio están a propósito: si el rojo y el cian se mezclan directamente,
+// el degradado pasa por rosa y morado.
+const AURORA_STOPS = ["#e8381f", "#17161b", "#12202a", "#0099d6"]
+
 /**
- * Aurora con los colores de la marca: del rojo de las furgonetas (calor) al
+ * Aurora con los colores de la marca: el rojo de las furgonetas (calor) y el
  * cian del logo (frío). Sube desde el borde inferior de su contenedor.
  */
 export function AuroraBackdrop({ className }: { className?: string }) {
@@ -23,7 +28,7 @@ export function AuroraBackdrop({ className }: { className?: string }) {
     <div ref={ref} aria-hidden="true" className={cn("size-full", className)}>
       {near && (
         <Aurora
-          colorStops={["#d71f26", "#ff7a45", "#35b8ee", "#0099d6"]}
+          colorStops={AURORA_STOPS}
           direction="bottom"
           height={0.55}
           amplitude={1.15}

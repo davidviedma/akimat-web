@@ -42,7 +42,7 @@ horario, CIF, servicios, marcas, fotos, reseñas…) está en **`lib/site.ts`**.
 Cambiándolo ahí se actualiza toda la web, incluidos los datos estructurados para
 Google y los textos legales.
 
-El tiempo medio de un cambio de caldera ("4 horas de media") también sale de
+El tiempo medio de un cambio de caldera ("5 horas de media") también sale de
 ahí (`business.boilerSwapHours`): es un dato de akiMAT y se nombra siempre como
 media, no como plazo garantizado.
 

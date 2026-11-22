@@ -80,7 +80,7 @@ fotos-sin-usar/              client photos not on the site (kept out of public/)
   Kosner out of the boiler copy for now. Kosner still appears for aerotermia,
   air conditioning and in the brands strip.
 - The boiler-change time is the client's own figure
-  (`business.boilerSwapHours`, exported as `boilerSwap` = "4 horas de media").
+  (`business.boilerSwapHours`, exported as `boilerSwap` = "5 horas de media").
   Always word it as an average, never as a guarantee.
 - "+20 años de experiencia" comes from `business.experienceYears`, a fixed
   number (founded 2006), not a date calculation: raise it when they turn 25.
