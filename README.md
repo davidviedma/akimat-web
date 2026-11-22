@@ -104,9 +104,9 @@ de terceros y sin banner. Los enlaces y el modo de carga están en `maps`
 
 - `location.coords`: Google no sitúa bien la dirección (el marcador cae en otra
   calle del polígono), así que el punto exacto se fija con las coordenadas de la
-  nave: clic derecho sobre ella en Google Maps y clic en los números para
-  copiarlos. Con ellas se generan el mapa, "Cómo llegar" y los datos para
-  Google. **Mientras estén vacías, el marcador no es fiable.**
+  nave, que dio el cliente. Con ellas se generan el mapa, "Cómo llegar" y los
+  datos para Google. Para cambiarlas: clic derecho sobre el sitio en Google
+  Maps y clic en los números para copiarlos.
 - `maps.autoload: true` deja el mapa siempre visible. En ese caso hay que
   añadir un banner de consentimiento y reescribir `/politica-de-cookies`.
 
@@ -134,8 +134,8 @@ Commons Clause (ver `components/reactbits/LICENSE.md`).
 
 - [ ] Confirmar teléfonos, email y que el móvil tiene WhatsApp.
 - [ ] Dominio definitivo (`SITE_URL`, ahora `https://www.akimat.es`).
-- [ ] Poner las coordenadas de la nave en `location.coords` (ver "Mapa de
-      Google"): sin ellas el marcador cae en otra calle.
+- [ ] Abrir el mapa del pie en la web publicada y comprobar que el marcador
+      cae sobre la nave (las coordenadas están en `location.coords`).
 - [ ] Poner en `googleReviews.url` el enlace de "Compartir" de la ficha de
       Google y revisar la nota media antes de publicar.
 - [ ] Dirección fiscal para el aviso legal (si no coincide con la nave de Mutilva

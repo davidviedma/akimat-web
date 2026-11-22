@@ -74,14 +74,14 @@ export const business = {
 export const fullAddress = `${business.address.street}, ${business.address.postalCode} ${business.address.city} (${business.address.region})`
 
 /**
- * Punto exacto de la nave. Google no sitúa bien la dirección: la búsqueda cae
- * en otra parte del polígono, así que el mapa necesita las coordenadas.
- * TODO: pegar aquí las de Google Maps (clic derecho sobre la nave → clic en
- * los números para copiarlos), por ejemplo `{ lat: 42.78, lng: -1.61 }`.
- * Mientras sea `null`, el mapa busca por la dirección y el marcador NO es fiable.
+ * Punto exacto de la nave (coordenadas que dio el cliente). Google no sitúa
+ * bien la dirección: la búsqueda cae en otra calle del polígono, así que el
+ * mapa, "Cómo llegar" y los datos para Google salen de aquí.
+ * Para cambiarlo: clic derecho sobre el sitio en Google Maps → clic en los
+ * números para copiarlos. Con `null`, el mapa buscaría por la dirección.
  */
 export const location: { coords: { lat: number; lng: number } | null } = {
-  coords: null,
+  coords: { lat: 42.784201, lng: -1.6255 },
 }
 
 const mapsQuery = location.coords

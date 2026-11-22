@@ -84,9 +84,9 @@ fotos-sin-usar/              client photos not on the site (kept out of public/)
   Always word it as an average, never as a guarantee.
 - "+20 años de experiencia" comes from `business.experienceYears`, a fixed
   number (founded 2006), not a date calculation: raise it when they turn 25.
-- The map pin needs exact coordinates (`location.coords` in `lib/site.ts`):
-  Google geocodes the street address to the wrong street of the estate. While
-  they are `null` the pin is unreliable.
+- The map pin uses exact coordinates (`location.coords` in `lib/site.ts`,
+  given by the client): Google geocodes the street address to the wrong street
+  of the estate, so never go back to an address query.
 - Reviews (`reviews` in `lib/site.ts`) are real Google reviews: keep the text
   verbatim (only fix spacing/stray punctuation), publish first name + surname
   initial only, and keep `googleReviews` (average and count) truthful.

@@ -10,8 +10,10 @@ import { WhatsAppIcon } from "@/components/whatsapp-button"
 import { business, whatsappLink } from "@/lib/site"
 
 export function Hero() {
+  // La altura se limita en pantallas muy altas: si no, la foto se ve entera y
+  // la furgoneta y el titular quedan en el fondo de la pantalla.
   return (
-    <section className="relative isolate flex min-h-svh flex-col justify-end overflow-hidden bg-ink text-white">
+    <section className="relative isolate flex min-h-[min(100svh,56rem)] flex-col justify-end overflow-hidden bg-ink text-white">
       <Image
         src={vanPhoto}
         alt="Furgoneta eléctrica de akiMAT rotulada con sus servicios"
@@ -19,15 +21,15 @@ export function Hero() {
         preload
         placeholder="blur"
         sizes="100vw"
-        className="object-cover object-[62%_60%] md:object-[50%_58%]"
+        className="object-cover object-[62%_60%] md:object-[50%_75%]"
       />
       {/* Degradado para que el texto se lea */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/35 to-ink/10"
+        className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/40 to-ink/10"
       />
 
-      <div className="relative z-10 container-x flex flex-col gap-8 pt-40 pb-12 md:pb-16">
+      <div className="relative z-10 container-x flex flex-col gap-8 pt-40 pb-12 md:pb-20 lg:pb-24">
         {/* Lo primero que se lee: los años de oficio */}
         <p className="inline-flex w-fit items-center gap-3 rounded-full border border-white/30 bg-white/15 py-2 pr-6 pl-2 text-base font-medium backdrop-blur-md sm:text-lg">
           <span className="flex size-10 items-center justify-center rounded-full bg-brand-primary">
