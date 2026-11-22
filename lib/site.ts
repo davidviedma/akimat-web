@@ -49,7 +49,7 @@ export const business = {
     area: "Mutilva Baja",
   },
   hours: [
-    { days: "Lunes a jueves", time: "8:00 – 18:30" },
+    { days: "Lunes a jueves", time: "8:00 – 17:00" },
     { days: "Viernes", time: "8:00 – 14:00" },
     { days: "Sábado y domingo", time: "Cerrado" },
   ],
@@ -58,7 +58,7 @@ export const business = {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday"],
       opens: "08:00",
-      closes: "18:30",
+      closes: "17:00",
     },
     {
       "@type": "OpeningHoursSpecification",

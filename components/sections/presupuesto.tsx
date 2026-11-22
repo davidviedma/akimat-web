@@ -74,13 +74,13 @@ function OptionGrid({
               "focus-visible:ring-3 focus-visible:ring-brand-primary/35 focus-visible:outline-none",
               selected
                 ? "border-brand-text bg-brand-text text-white"
-                : "border-line bg-white text-ink hover:border-brand-text/50"
+                : "border-white/12 bg-white/[0.05] text-white hover:border-white/35"
             )}
           >
             <HugeiconsIcon
               icon={option.icon}
               size={22}
-              className={selected ? "text-white" : "text-ink-soft"}
+              className={selected ? "text-white" : "text-brand-primary"}
             />
             <span className="flex flex-col">
               <span className="text-sm font-semibold sm:text-[15px]">
@@ -89,7 +89,7 @@ function OptionGrid({
               <span
                 className={cn(
                   "text-xs",
-                  selected ? "text-white/90" : "text-ink-soft"
+                  selected ? "text-white/90" : "text-white/60"
                 )}
               >
                 {option.hint}
@@ -105,14 +105,14 @@ function OptionGrid({
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <label className="flex flex-col gap-1.5">
-      <span className="text-sm font-medium text-ink">{label}</span>
+      <span className="text-sm font-medium text-white/85">{label}</span>
       {children}
     </label>
   )
 }
 
 const inputClass =
-  "w-full rounded-xl border border-line bg-white px-3.5 py-2.5 text-[15px] text-ink placeholder:text-ink-soft/70 transition-colors focus:border-brand-primary focus:outline-none focus:ring-3 focus:ring-brand-primary/25"
+  "w-full rounded-xl border border-white/15 bg-white/[0.06] px-3.5 py-2.5 text-[15px] text-white placeholder:text-white/40 transition-colors focus:border-brand-primary focus:outline-none focus:ring-3 focus:ring-brand-primary/30"
 
 export function buildMessage(data: {
   service: string
@@ -167,16 +167,17 @@ function QuoteWizard() {
       linear
       width="100%"
       radius={28}
-      theme="light"
-      accentColor="#111016"
+      theme="dark"
+      accentColor="#0099d6"
       backButtonText="Atrás"
       nextButtonText="Continuar"
       completeButtonText="Enviar por WhatsApp"
       nextButtonProps={{ disabled: !canContinue }}
       style={
         {
-          "--stepper-frame": "#ffffff",
-          "--stepper-frame-shadow": "0 30px 60px -40px rgba(17, 16, 22, 0.35)",
+          "--stepper-frame": "#111016",
+          "--stepper-frame-shadow": "0 30px 60px -36px rgba(17, 16, 22, 0.6)",
+          "--stepper-solid-ink": "#ffffff",
         } as CSSProperties
       }
       completedContent={
@@ -185,10 +186,10 @@ function QuoteWizard() {
             <WhatsAppIcon className="size-6" />
           </span>
           <div className="flex flex-col gap-1">
-            <p className="font-heading text-xl font-semibold text-ink">
+            <p className="font-heading text-xl font-semibold text-white">
               ¡Mensaje preparado!
             </p>
-            <p className="text-sm leading-relaxed text-ink-soft">
+            <p className="text-sm leading-relaxed text-white/65">
               Se ha abierto WhatsApp con tu solicitud. Si no, usa el botón.
             </p>
           </div>
@@ -205,7 +206,7 @@ function QuoteWizard() {
             <button
               type="button"
               onClick={reset}
-              className="inline-flex h-10 items-center rounded-full border border-line px-4 text-sm font-semibold text-ink transition-colors hover:bg-paper-2"
+              className="inline-flex h-10 items-center rounded-full border border-white/20 px-4 text-sm font-semibold text-white transition-colors hover:bg-white/10"
             >
               Otra consulta
             </button>
@@ -215,7 +216,7 @@ function QuoteWizard() {
     >
       <Step title="Servicio">
         <div className="flex flex-col gap-4">
-          <p className="font-heading text-lg font-semibold text-ink">
+          <p className="font-heading text-lg font-semibold text-white">
             ¿Qué necesitas?
           </p>
           <OptionGrid
@@ -228,7 +229,7 @@ function QuoteWizard() {
       </Step>
       <Step title="Trabajo">
         <div className="flex flex-col gap-4">
-          <p className="font-heading text-lg font-semibold text-ink">
+          <p className="font-heading text-lg font-semibold text-white">
             ¿Qué tipo de trabajo es?
           </p>
           <OptionGrid
@@ -241,7 +242,7 @@ function QuoteWizard() {
       </Step>
       <Step title="Tus datos">
         <div className="flex flex-col gap-3.5">
-          <p className="font-heading text-lg font-semibold text-ink">
+          <p className="font-heading text-lg font-semibold text-white">
             ¿Dónde y a quién?
           </p>
           <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
@@ -272,7 +273,7 @@ function QuoteWizard() {
               placeholder="Ej.: el termo pierde agua por abajo desde ayer"
             />
           </Field>
-          <p className="text-xs leading-relaxed text-ink-soft">
+          <p className="text-xs leading-relaxed text-white/55">
             Al enviar se abrirá WhatsApp con tu mensaje ya escrito. No guardamos
             ningún dato.
           </p>
